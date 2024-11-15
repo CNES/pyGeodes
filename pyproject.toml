@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pygeodes"
-version = "0.2.0"
+version = "0.1.0"
 description = "A Python client for Geodes APIs"
 authors = ["CNES"]
 readme = "README.md"
@@ -10,7 +10,7 @@ repository = "https://github.com/CNES/pyGeodes"
 homepage = "https://geodes.cnes.fr"
 
 [tool.poetry.dependencies]
-python = ">=3.10"
+python = ">=3.8"
 tqdm = "^4.66.4"
 remotezip = "^0.12.3"
 validators = "^0.28.3"
