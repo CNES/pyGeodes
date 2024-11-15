@@ -4,7 +4,7 @@ Installation
 Before installation
 -------------------
 
-Before installing, please be sure you use Python 3.8 or upper version, you can test with :bash:`python3 --version`.
+Before installing, please be sure you use Python 3.10 or upper version, you can test with :bash:`python3 --version`.
 
 **Optional** : you can also create a virtual environment to work (:bash:`python -m venv pygeodes_env && source pygeodes_env/bin/activate`)
 

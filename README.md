@@ -15,7 +15,7 @@
 
 <h1>pyGeodes, A wrapper for Geodes APIs</h1>
 
-[![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
+[![Python](https://img.shields.io/badge/python-v3.10+-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Documentation](https://github.com/CNES/pyGeodes/actions/workflows/pages.yml/badge.svg?branch=main)](https://cnes.github.io/pyGeodes/)
 </div>

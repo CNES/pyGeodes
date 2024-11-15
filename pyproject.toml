@@ -10,7 +10,7 @@ repository = "https://github.com/CNES/pyGeodes"
 homepage = "https://geodes.cnes.fr"
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = ">=3.10"
 tqdm = "^4.66.4"
 remotezip = "^0.12.3"
 validators = "^0.28.3"
