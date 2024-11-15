@@ -1,0 +1,9 @@
+html[data-theme="light"] {
+    --pst-color-secondary: #eb8034;
+    --pst-font-size-base: 17px;
+}
+
+html[data-theme="dark"] {
+    --pst-color-secondary: #eb8034;
+    --pst-font-size-base: 17px;
+}

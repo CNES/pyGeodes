@@ -1,0 +1,856 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Changes 6.0 :
+	- add project attribute
+	- add spaceborne.parameter & pparameter attributes
+	- add snowCover & waterCover attributes
+	- enrich enum for satellitePlatform
+	- enrich enum for sensorMode
+	- enrich enum for productTimeliness
+	- enrich enum for productType
+	- add angle attribute
+	- add pitch attribute
+	- add roll attribute
+	- add percentSaturatedPixelsMax attribute
+	- add percentNoDataPixelsMax attribute
+	- add nbColInterpolationErrorMax attribute
+	- add percentGroundUsefulPixels attribute
+	- add percentUsefulPixelsMin attribute
+    - add product attribute
+	- add timeresolution attribute
+	- add classification attribute
+	- add productLevel attribute
+	- change continentID -> continentsID
+    Changes 7.0 :
+        For Flatsim data
+    - enrich enum for productType
+	- enrich enum for satellitePlatform
+    - add productValidity attribute
+	- add subswath attribute
+	- add subTile attribute (processingSite)
+    - add nbCols attribute
+    - add NbRows attribute
+    - add processingDate attribute
+    - add new fragment "processing" 
+    - add processingMode attribute
+	- add processingContext attribute
+	- add processingCorrection attribute
+    - add processingVersion attribute
+	- delete restriction for orbitDirection attribute
+	- add withoutGeom attribute
+	- add VM1 value in satellitePlatform
+	- add VM5 value in satellitePlatform
+
+-->
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="model_V1.10.0.xsd"
+    xmlns:dct="http://purl.org/dc/terms/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcat="http://www.w3.org/ns/dcat#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:vcard="http://www.w3.org/2006/vcard/ns#">
+    
+    <name>GDH_DATA_V1</name>
+	<description>GDH model for space data</description>
+	<version>v7.0</version>
+	<!-- Correspond à un type Feature au sens STAC -->
+	<type>DATA</type>
+
+	<attribute optional="false">
+		<label>Version</label>
+		<name>versionInfo</name>
+		<type>STRING</type>
+		<property key="dt_element" value="owl:versionInfo" />
+	</attribute>
+	<attribute optional="false" indexed="true">
+		<label>Data type</label>
+		<name>dataType</name>
+		<type>STRING</type>
+	</attribute>
+    <!-- STAC temporal properties -->
+	<attribute indexed="true">
+		<label>DateTime</label>
+		<name>date</name>
+		<type>DATE_ISO8601</type>
+	</attribute>
+	<attribute optional="true">
+		<label>Project name</label>
+		<name>project</name>
+		<type>STRING</type>
+	</attribute>
+	<attribute optional="true" indexed="true">
+		<label>Links</label>
+		<name>links</name>
+		<type>STRING</type>
+	</attribute>		
+	<attribute optional="true">
+		<label>Relationship</label>
+		<name>qualifiedRelation</name>
+		<description>Links to be added to item ones</description>
+		<type>JSON</type>
+		<restriction>
+			<json_schema>
+				<![CDATA[{
+					"$schema": "http://json-schema.org/draft-07/schema#",
+					"$id": "https://schemas.stacspec.org/v1.0.0/item-spec/json-schema/links.json#",
+					"title": "Links",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"required": [
+							"rel",
+							"href"
+						],
+						"properties": {
+							"href": {
+								"title": "Link reference",
+								"type": "string",
+								"format": "iri-reference",
+								"minLength": 1
+							},
+							"rel": {
+								"title": "Link relation type",
+								"type": "string",
+								"minLength": 1
+							},
+							"type": {
+								"title": "Link type",
+								"type": "string"
+							},
+							"title": {
+								"title": "Link title",
+								"type": "string"
+							}
+						}
+					}
+				}]]>
+			</json_schema>
+		</restriction>
+		<property key="dt_element" value="dcat:qualifiedRelation" />
+	</attribute>
+    <attribute optional="true" indexed="true">
+        <label>Product Validity</label>
+        <name>productValidity</name>
+        <type>BOOLEAN</type>
+    </attribute>
+    <attribute optional="true" indexed="true">
+        <label>DOI</label>
+        <name>doi</name>
+        <type>STRING_ARRAY</type>
+    </attribute>
+    <attribute optional="true" indexed="true">
+        <label>Without Geom</label>
+        <name>withoutGeom</name>
+        <type>BOOLEAN</type>
+    </attribute>
+    <!-- Temporal fragment -->
+    <fragment>
+        <name>temporal</name>
+        <description>Relative to dct:temporal in DT model</description>
+        <version>v1</version>
+        <attribute optional="false" indexed="true">
+            <label>Start dateTime</label>
+            <name>startDate</name>
+            <type>DATE_ISO8601</type>
+            <property key="dt_element" value="dcat:startDate" />
+        </attribute>
+        <attribute optional="false" indexed="true">
+            <label>End dateTime</label>
+            <name>endDate</name>
+            <type>DATE_ISO8601</type>
+            <property key="dt_element" value="dcat:endDate" />
+        </attribute>
+        <!-- flatsim processing date -->
+        <attribute optional="true" indexed="true">
+            <label>Processing Date</label>
+            <name>processingDate</name>
+            <type>DATE_ISO8601</type>
+        </attribute>
+    </fragment>
+
+    <!-- Processing fragment -->
+    <fragment>
+        <name>processing</name>
+        <description></description>
+        <attribute optional="true" indexed="true">
+            <label>Processing Mode</label>
+            <name>processingMode</name>
+            <type>STRING</type>
+        </attribute>
+        <attribute optional="true" indexed="true">
+            <label>Processing Context</label>
+            <name>processingContext</name>
+            <type>STRING</type>
+        </attribute>
+        <attribute optional="true" indexed="true">
+            <label>Correction</label>
+            <name>processingCorrection</name>
+            <type>STRING</type>
+        </attribute>
+        <attribute optional="true" indexed="true">
+            <label>Processing Version</label>
+            <name>processingVersion</name>
+            <type>STRING</type>
+        </attribute>
+    </fragment>
+
+	<!-- Relative to dct:spatial in DT model -->
+	<fragment>
+        <name>spatial</name>
+        <description>Spatial extension at dataset level</description>
+        <version>v1</version>
+		<attribute optional="false" indexed="true">
+			<label>Spatial extent</label>
+			<name>bbox</name>
+			<description>Footprint of the data described with bbox</description>
+			<type>STRING</type>
+			<property key="dt_element" value="dcat:bbox" />
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Nbcols</label>
+			<name>nbCols</name>
+			<description></description>
+			<type>STRING</type>
+		</attribute>
+        <attribute optional="true" indexed="true">
+			<label>Nbrows</label>
+			<name>nbRows</name>
+			<description></description>
+			<type>STRING</type>
+		</attribute>
+	</fragment>
+
+	<!-- Relative to dcat:accessService	in DT model -->
+    <fragment>
+        <name>accessService</name>
+        <description>Relative to dcat:distribution in DT model. Version relates to GeoDCAT-AP</description>
+        <version>v1</version>
+        <attribute optional="true">
+            <label>Enpoint URL</label>
+            <name>endpointURL</name>
+            <type>URL</type>
+            <property key="dt_element" value="dcat:endpointURL" />
+	    </attribute>
+		<attribute optional="true">
+            <label>Enpoint description</label>
+            <name>endpointDescription</name>
+            <type>STRING</type>
+            <property key="dt_element" value="dcat:endpointDescription" />
+	    </attribute>
+		<attribute optional="true">
+            <label>Endpoint title</label>
+            <name>title</name>
+            <type>STRING</type>
+            <property key="dt_element" value="dct:title" />
+        </attribute>
+    </fragment>
+
+    <!-- Spaceborne fragment -->
+    <fragment>
+        <name>spaceborne</name>
+		<description>Extension STAC : Extension about spatial data</description>
+        <version>v3</version>
+		<attribute optional="true" indexed="true">
+            <label>Satellite Sensor</label>
+            <name>satelliteSensor</name>
+            <type>STRING</type>
+	    </attribute>
+		<attribute optional="true" indexed="true">
+            <label>Satellite Platform</label>
+            <name>satellitePlatform</name>
+            <type>STRING</type>
+			<restriction>
+				<enumeration>
+					<value>S1A</value>
+					<value>S1B</value>
+					<value>S1C</value>
+					<value>S1D</value>
+                    <value>S1X</value>
+					<value>S2A</value>
+					<value>S2B</value>
+					<value>S2C</value>
+					<value>S2D</value>
+					<value>S2X</value>
+                    <value>S3A</value>
+                    <value>S3B</value>
+					<value>S3C</value>
+                    <value>S3D</value>
+					<value>P1A</value>
+					<value>P1B</value>
+					<value>PN3</value>
+					<value>PN4</value>
+					<value>PN5</value>
+					<value>PN6</value>
+					<value>SPOT1</value>
+					<value>SPOT2</value>
+					<value>SPOT3</value>
+					<value>SPOT4</value>
+					<value>SPOT5</value>
+					<value>LANDSAT5</value>
+					<value>LANDSAT7</value>
+					<value>LANDSAT8</value>
+					<value>OSO</value>
+					<value>VENUS</value>
+					<value>VM1</value>
+					<value>VM5</value>
+					<value>PLEIADES-1A</value>
+					<value>PLEIADES-1B</value>
+					<value>SENTINEL2A</value>
+					<value>SENTINEL2B</value>
+					<value>SENTINEL2X</value>
+					<value>MULTISAT</value>
+				</enumeration>
+			</restriction>
+	    </attribute>
+		<attribute optional="true" indexed="true">
+            <label>Sensor mode</label>
+            <name>sensorMode</name>
+            <type>STRING</type>
+			<restriction>
+				<enumeration>
+					<value>IW</value>
+					<value>EW</value>
+					<value>SM</value>
+					<value>WV</value>
+					<value>INS-NOBS</value>
+					<value>INS-RAW</value>
+					<value>INS-VIC</value>
+					<value>XS</value>
+					<value>PAN</value>
+					<value>B_W</value>
+                    <value>Earth Observation</value>
+				</enumeration>
+			</restriction>
+	    </attribute>
+		<attribute optional="true" indexed="true">
+			<label>Product level</label>
+			<name>productLevel</name>
+			<type>STRING</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+            <label>Polarization</label>
+            <name>polarization</name>
+            <type>STRING</type>
+	    </attribute>
+		<attribute optional="true">
+            <label>Resolution</label>
+            <name>resolution</name>
+            <type>STRING</type>
+			<restriction>
+				<enumeration>
+					<value>Full</value>
+					<value>High</value>
+					<value>Medium</value>
+					<value>Low</value>
+					<value>Reduced</value>
+				</enumeration>
+			</restriction>
+	    </attribute>
+        <attribute optional="true" indexed="true">
+			<label>Cycle ID</label>
+			<name>cycleID</name>
+			<type>INTEGER</type>
+		</attribute>
+        <attribute optional="true" indexed="true">
+			<label>Mission Take Id</label>
+			<name>missionTakeId</name>
+			<type>INTEGER</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>s2 Take Id</label>
+			<name>s2TakeId</name>
+			<type>STRING</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Relative orbit number</label>
+			<name>orbitID</name>
+			<type>INTEGER</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Absolute orbit number</label>
+			<name>absoluteOrbitID</name>
+			<type>LONG</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+            <label>Orbit direction</label>
+            <name>orbitDirection</name>
+            <type>STRING</type>
+	    </attribute>
+		<attribute optional="true" indexed="true">
+			<label>Product type</label>
+			<name>productType</name>
+			<type>STRING</type>
+			<restriction>
+				<enumeration>
+					<value>SLC</value>
+					<value>GRD</value>
+					<value>OCN</value>
+					<value>S2MSI1C</value>
+					<value>S2MSI2A</value>
+					<value>Bundle</value>
+					<value>Multispectral</value>
+					<value>Panchromatique</value>
+					<value>Pansharpened</value>
+					<value>REFLECTANCE</value>
+					<value>Vegetation</value>
+					<value>Radiation</value>
+					<value>Water</value>
+					<value>LandCover</value>
+					<!-- TODO : check value for SR_1 -->
+					<value>SR_1_SRA_A_</value>
+					<value>SR_2_WAT</value>
+					<value>SR_2_LAN</value>
+					<value>Bundle (Pan, XS)</value>
+					<value>DEM</value>
+					<value>DEM9V20</value>
+					<value>DEMS09V20</value>
+					<value>DEMS9V20</value>
+					<value>DEMSV20</value>
+					<value>DEPS9V20</value>
+					<value>Multispectral (XS)</value>
+					<value>Panchromatique (Pan)</value>
+					<value>Pansharpened (Pan+XS)</value>
+					<value>REFLECTANCE</value>
+					<value>REFLECTANCETOA</value>
+					<value>SNOW_MASK</value>
+					<value>SPOTDEM</value>
+					<value>SPOT DEM</value>
+                    <value>AUXILIARYDATA</value>
+                    <value>INTERFEROGRAM</value>
+                    <value>TIMESERIE</value>
+				</enumeration>
+			</restriction>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Parameter</label>
+			<name>parameter</name>
+			<type>STRING</type>
+		</attribute> 
+		<attribute optional="true" indexed="true">
+			<label>Pparameter</label>
+			<name>pparameter</name>
+			<type>STRING</type>
+		</attribute> 
+		<attribute optional="true" indexed="true">
+			<label>Product</label>
+			<name>product</name>
+			<type>STRING</type>
+		</attribute> 
+		<attribute optional="true" indexed="true">
+			<label>Time resolution</label>
+			<name>timeresolution</name>
+			<type>STRING</type>
+		</attribute> 
+		<attribute optional="true" indexed="true">
+			<label>Classification</label>
+			<name>classification</name>
+			<type>STRING</type>
+		</attribute> 			
+		<attribute optional="true">
+			<label>Product freshness</label>
+			<name>productTimeliness</name>
+			<type>STRING</type>
+			<restriction>
+				<enumeration>
+					<value>NRT10m</value>
+					<value>NRT1h</value>
+					<value>NRT3h</value>
+					<value>Fast24h</value>
+					<value>Offline</value>
+					<value>Reprocessing</value>
+					<value>ArchNormal</value>
+					<value>Nominal</value>
+					<value>NRT</value>
+                    <value>STC</value>
+					<value>NTC</value>
+				</enumeration>
+			</restriction>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Swath</label>
+			<name>swath</name>
+			<type>STRING</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Bands</label>
+			<name>bands</name>
+			<type>STRING</type>
+		</attribute>
+		<!-- http://melodi.irit.fr/ontologies/eom#title -->
+		<attribute optional="true" indexed="true">
+			<label>Tile</label>
+			<name>tile</name>
+			<type>STRING</type>
+		</attribute>
+		<!-- http://melodi.irit.fr/ontologies/eom#thumbnail -->
+		<attribute optional="true">
+			<label>Image thumbnail</label>
+			<name>thumbnail</name>
+			<type>STRING</type>
+		</attribute>
+		<!-- http://melodi.irit.fr/ontologies/eom#cloudCover -->
+		<attribute optional="true" indexed="true">
+			<label>Cloud cover</label>
+			<name>cloudCover</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true">
+			<label>Snow Cover</label>
+			<name>snowCover</name>
+			<type>DOUBLE</type>
+		</attribute>	
+		<attribute optional="true" indexed="true">
+			<label>Water cover</label>
+			<name>waterCover</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Maximal saturated pixels percentage</label>
+			<name>percentSaturatedPixelsMax</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Maximal nodata pixels percentage</label>
+			<name>percentNoDataPixelsMax</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Maximal Nb col interpolation error</label>
+			<name>nbColInterpolationErrorMax</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Ground useful pixels percentage</label>
+			<name>percentGroundUsefulPixels</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Minimal useful pixels percentage</label>
+			<name>percentUsefulPixelsMin</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Camera viewing angle</label>
+			<name>angle</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Camera angle pitch</label>
+			<name>pitch</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Camera angle roll</label>
+			<name>roll</name>
+			<type>DOUBLE</type>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Continents ID</label>
+			<name>continentsID</name>
+			<type>STRING_ARRAY</type>
+			<restriction>
+				<enumeration>
+					<value>AF</value>
+					<value>NA</value>
+					<value>OC</value>
+					<value>AN</value>
+					<value>AS</value>
+					<value>EU</value>
+					<value>SA</value>
+					<value>SS</value>
+				</enumeration>
+			</restriction>
+		</attribute>
+		<attribute optional="true" indexed="true">
+			<label>Area</label>
+			<name>area</name>
+			<type>DOUBLE</type>
+		</attribute>
+        <attribute optional="true" indexed="true">
+			<label>Sub Swath</label>
+			<name>subSwath</name>
+			<type>STRING</type>
+		</attribute>
+        <!-- specific for Flatsim : it's the processingSite (subTile of a tile which is a collection in flatsim) -->
+        <attribute optional="true" indexed="true">
+			<label>SubTile</label>
+			<name>subTile</name>
+			<type>STRING</type>
+		</attribute>
+
+		<!-- TODO : from here, move attributes to a specific fragment, excepted keywords at root level -->
+		<attribute optional="true" indexed="true">
+			<label>Keywords</label>
+			<name>keywords</name>
+			<type>STRING_ARRAY</type>
+	    </attribute>
+		<attribute optional="true" indexed="true">
+			<label>Political</label>
+			<name>political</name>
+			<type>JSON</type>
+			<restriction>
+				<json_schema>
+					<![CDATA[ {
+					"$schema": "http://json-schema.org/draft-07/schema#",
+					"$id": "https://example.com/object1686224679.json",
+					"title": "Political",
+					"type": "object",
+					"properties": {
+						"continents": {
+							"title": "Continents",
+							"type": "array",
+							"default": [],
+							"items":{
+								"title": "Items",
+								"type": "object",
+								"properties": {
+									"name": {
+										"title": "Name",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"id": {
+										"title": "Id",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"countries": {
+										"title": "Countries",
+										"type": "array",
+										"default": [],
+										"items":{
+											"title": "Items",
+											"type": "object",
+											"properties": {
+												"name": {
+													"title": "Name",
+													"type": "string",
+													"default": "",
+													"pattern": "^.*$"
+												},
+												"id": {
+													"title": "Id",
+													"type": "string",
+													"default": "",
+													"pattern": "^.*$"
+												},
+												"pcover": {
+													"title": "Pcover",
+													"type": "number",
+													"default": 0.0
+												},
+												"gcover": {
+													"title": "Gcover",
+													"type": "number",
+													"default": 0.0
+												},
+												"regions": {
+													"$id": "#root/continents/items/countries/items/regions",
+													"title": "Regions",
+													"type": "array",
+													"default": [],
+													"items":{
+														"title": "Items",
+														"type": "object",
+														"properties": {
+															"name": {
+																"title": "Name",
+																"type": "string",
+																"default": "",
+																"pattern": "^.*$"
+															},
+															"id": {
+																"title": "Id",
+																"type": "string",
+																"default": "",
+																"pattern": "^.*$"
+															},
+															"pcover": {
+																"title": "Pcover",
+																"type": "number",
+																"default": 0.0
+															},
+															"gcover": {
+																"title": "Gcover",
+																"type": "number",
+																"default": 0
+															},
+															"states": {
+																"title": "States",
+																"type": "array",
+																"default": [],
+																"items":{
+																	"title": "Items",
+																	"type": "object",
+																	"properties": {
+																		"name": {
+																			"title": "Name",
+																			"type": "string",
+																			"default": "",
+																			"pattern": "^.*$"
+																		},
+																		"id": {
+																			"title": "Id",
+																			"type": "string",
+																			"default": "",
+																			"pattern": "^.*$"
+																		},
+																		"pcover": {
+																			"title": "Pcover",
+																			"type": "number",
+																			"default": 0.0
+																		},
+																		"gcover": {
+																			"title": "Gcover",
+																			"type": "number",
+																			"default": 0
+																		}
+																	}
+																}
+
+															}
+														}
+													}
+
+												}
+											}
+										}
+
+									}
+								}
+							}
+
+						}
+					}
+				}]]>
+				</json_schema>
+			</restriction>
+		</attribute>
+		<attribute optional="true">
+			<label>Hydrology</label>
+			<name>hydrology</name>
+			<type>JSON</type>
+			<restriction>
+				<json_schema>
+					<![CDATA[ {
+					"$schema": "http://json-schema.org/draft-07/schema#",
+					"$id": "https://example.com/object1686219737.json",
+					"title": "Hydrology",
+					"type": "object",
+					"properties": {
+						"rivers": {
+							"title": "Rivers",
+							"type": "array",
+							"default": [],
+							"items":{
+								"title": "Items",
+								"type": "object",
+								"properties": {
+									"name": {
+										"title": "Name",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									}
+								}
+							}
+						}
+					}
+				}]]>
+				</json_schema>
+			</restriction>
+		</attribute>
+		<attribute optional="true">
+			<label>Physical</label>
+			<name>physical</name>
+			<type>JSON</type>
+			<restriction>
+				<json_schema>
+					<![CDATA[ {
+					"$schema": "http://json-schema.org/draft-07/schema#",
+					"$id": "https://example.com/object1686218999.json",
+					"title": "physical",
+					"type": "array",
+					"default": [],
+					"items":{
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"name": {
+								"title": "Name",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"id": {
+								"title": "Id",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"pcover": {
+								"title": "Pcover",
+								"type": "number",
+								"default": 0.0
+							},
+							"gcover": {
+								"title": "Gcover",
+								"type": "number",
+								"default": 0.0
+							}
+						}
+					}
+				}]]>
+				</json_schema>
+			</restriction>
+		</attribute>
+		<attribute optional="true">
+			<label>References</label>
+			<name>references</name>
+			<type>JSON</type>
+			<restriction>
+				<json_schema>
+					<![CDATA[ {
+					"$schema": "http://json-schema.org/draft-07/schema#",
+					"$id": "https://example.com/object1686219737.json",
+					"title": "References",
+					"type": "array",
+					"default": [],
+					"items":{
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"dataset": {
+								"title": "Dataset",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"author": {
+								"title": "Author",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"license": {
+								"title": "License",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"url": {
+								"title": "URL",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+				}]]>
+				</json_schema>
+			</restriction>
+		</attribute>
+
+    </fragment>
+</model>

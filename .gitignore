@@ -1,0 +1,9 @@
+envs/*
+**/__pycache__
+**/.ipynb_checkpoints
+docs/build/*
+tests/**-api-key.json
+poetry.lock
+pygeodes/data/profile.json
+dist/*
+tests/test_env/download_dir/
