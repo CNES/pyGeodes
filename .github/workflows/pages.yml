@@ -30,7 +30,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install
+          poetry install  --with dev
+
+      - name: Build lib
+        run: |
+          make full_build
 
       - name: Install Pandoc
         uses: pandoc/actions/setup@v1
