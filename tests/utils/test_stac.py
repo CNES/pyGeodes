@@ -1,10 +1,9 @@
-from tests.test_case import PyGeodesTestCase
-from tests.serializer import load_serialized_item, load_serialized_collection
-
-from pygeodes.utils.stac import Collection, Item
-from pygeodes.utils.exceptions import DataAssetMissingException
 from pygeodes.geodes import Geodes
 from pygeodes.utils.config import Config
+from pygeodes.utils.exceptions import DataAssetMissingException
+from pygeodes.utils.stac import Collection, Item
+from tests.serializer import load_serialized_collection, load_serialized_item
+from tests.test_case import PyGeodesTestCase
 
 
 class TestSTAC(PyGeodesTestCase):

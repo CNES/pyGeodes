@@ -1,18 +1,17 @@
+from copy import deepcopy
 from datetime import timedelta
+
+from pygeodes.geodes import Geodes
+from pygeodes.utils.config import Config
+from pygeodes.utils.io import file_exists
+from pygeodes.utils.profile import Download, DownloadQueue, Profile
 from tests import TEST_ENV_DOWNLOAD_DIR
 from tests.test_case import PyGeodesTestCase
 from tests.testutils import (
-    random_date,
     EXAMPLE_ITEM_QUERY,
     empty_test_env_download_dir,
+    random_date,
 )
-
-from pygeodes.utils.profile import Profile, Download, DownloadQueue
-from pygeodes.utils.io import file_exists
-from pygeodes.geodes import Geodes
-from pygeodes.utils.config import Config
-
-from copy import deepcopy
 
 
 class TestProfile(PyGeodesTestCase):

@@ -1,7 +1,6 @@
-from tests.test_case import PyGeodesTestCase
-
 from pygeodes.utils.config import Config
 from pygeodes.utils.exceptions import MissingConfParamException
+from tests.test_case import PyGeodesTestCase
 
 
 class TestConfig(PyGeodesTestCase):

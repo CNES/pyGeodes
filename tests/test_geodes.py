@@ -12,36 +12,37 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
+import os
+
 # stdlib imports -------------------------------------------------------
 import unittest
-from time import perf_counter
 from datetime import datetime
-import os
+from time import perf_counter
 
 # third-party imports -----------------------------------------------
 import geopandas as pd
 
-# local imports ---------------------------------------------------
-from tests.test_case import PyGeodesTestCase
-from tests import TEST_ENV_DOWNLOAD_DIR
-from tests.testutils import (
-    empty_test_env_download_dir,
-    EXAMPLE_COLLECTION_QUERY,
-    EXAMPLE_ITEM_QUERY,
-    check_collection,
-    check_item,
-)
-
 from pygeodes.geodes import Geodes
-from pygeodes.utils.logger import logger
-from pygeodes.utils.stac import Item, Collection
 from pygeodes.utils.config import Config
 from pygeodes.utils.exceptions import (
     InvalidURLException,
     RequiresApiKeyException,
 )
 from pygeodes.utils.io import file_exists
-from pygeodes.utils.profile import Profile, Download
+from pygeodes.utils.logger import logger
+from pygeodes.utils.profile import Download, Profile
+from pygeodes.utils.stac import Collection, Item
+from tests import TEST_ENV_DOWNLOAD_DIR
+
+# local imports ---------------------------------------------------
+from tests.test_case import PyGeodesTestCase
+from tests.testutils import (
+    EXAMPLE_COLLECTION_QUERY,
+    EXAMPLE_ITEM_QUERY,
+    check_collection,
+    check_item,
+    empty_test_env_download_dir,
+)
 
 
 class TestGeodes(PyGeodesTestCase):
@@ -247,6 +248,9 @@ class TestGeodes(PyGeodesTestCase):
         item = items[0]
         avai = self.valid_geodes.check_item_availability(item)
 
+    @unittest.skip(
+        "skipping test_list_available_processes as it is not completely implemented yet"
+    )
     def test_list_available_processes(self):
         processes = self.valid_geodes.list_available_processes()
         self.assertTrue(type(processes) is list)

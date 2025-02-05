@@ -1,28 +1,26 @@
-from time import perf_counter
 import unittest
+from time import perf_counter
 
 from tqdm import tqdm
 
-
-from tests import TEST_ENV_DOWNLOAD_DIR
-from tests.test_case import PyGeodesTestCase
-from tests.testutils import EXAMPLE_ITEM_QUERY, empty_test_env_download_dir
-
-from pygeodes.utils.request import (
-    AsyncRequestMaker,
-    SyncRequestMaker,
-    make_params,
-)
+from pygeodes.geodes import Geodes
+from pygeodes.utils.config import Config
 from pygeodes.utils.consts import (
     GEODES_DEFAULT_URL,
     GEODES_SEARCH_COLLECTIONS_ENDPOINT,
     GEODES_SEARCH_ITEMS_ENDPOINT,
 )
-from pygeodes.utils.stac import Item, Collection
-from pygeodes.geodes import Geodes
-from pygeodes.utils.io import file_exists
-from pygeodes.utils.config import Config
 from pygeodes.utils.download import correct_download_tld
+from pygeodes.utils.io import file_exists
+from pygeodes.utils.request import (
+    AsyncRequestMaker,
+    SyncRequestMaker,
+    make_params,
+)
+from pygeodes.utils.stac import Collection, Item
+from tests import TEST_ENV_DOWNLOAD_DIR
+from tests.test_case import PyGeodesTestCase
+from tests.testutils import EXAMPLE_ITEM_QUERY, empty_test_env_download_dir
 
 
 class TestRequest(PyGeodesTestCase):

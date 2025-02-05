@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 
-from tests.test_case import PyGeodesTestCase
-
-from pygeodes.utils.decorators import requires_api_key
 from pygeodes.utils.config import Config
+from pygeodes.utils.decorators import requires_api_key
 from pygeodes.utils.exceptions import RequiresApiKeyException
+from tests.test_case import PyGeodesTestCase
 
 
 class TestDecorators(PyGeodesTestCase):
@@ -28,6 +27,7 @@ class TestDecorators(PyGeodesTestCase):
         self.geodes_class = Geodes
 
     def test_requires_api_key(self):
+
         conf_with_api_key = Config(api_key="api_key")
 
         provider_with_api_key = self.geodes_class(conf=conf_with_api_key)
@@ -39,6 +39,7 @@ class TestDecorators(PyGeodesTestCase):
             provider_without_api_key.method_which_requires_api_key()  # problem because hasn't api key
 
     def test_requires_api_key_s3(self):
+
         conf_without_api_key_but_with_s3_creds = Config(
             aws_access_key_id="access_key_id",
             aws_secret_access_key="secret_access_key",

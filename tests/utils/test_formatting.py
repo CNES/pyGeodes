@@ -1,20 +1,19 @@
 import geopandas as pd
 
+from pygeodes.utils.formatting import (
+    export_dataframe,
+    format_collections,
+    format_items,
+    load_dataframe,
+)
 from tests import TEST_ENV_DIR
-from tests.test_case import PyGeodesTestCase
 from tests.serializer import (
     check_presence_of_serialized_objects,
     load_serialized_collection,
     load_serialized_item,
 )
-from tests.testutils import random_int, capture_output
-
-from pygeodes.utils.formatting import (
-    format_collections,
-    format_items,
-    export_dataframe,
-    load_dataframe,
-)
+from tests.test_case import PyGeodesTestCase
+from tests.testutils import capture_output, random_int
 
 
 class TestFormatting(PyGeodesTestCase):

@@ -1,4 +1,4 @@
-version = "0.2.0"
+version = "0.1.1"
 name = "pygeodes"
 description = "A Python client for Geodes APIs"
 author = "CNES 2024"

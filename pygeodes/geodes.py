@@ -8,59 +8,41 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
-# stdlib imports -------------------------------------------------------
-from typing import List
 import os
 import warnings
 from pathlib import Path
+# stdlib imports -------------------------------------------------------
+from typing import List
 
 # third-party imports -----------------------------------------------
 from tqdm import tqdm
 
-# local imports ---------------------------------------------------
-from pygeodes.utils.consts import (
-    GEODES_DEFAULT_URL,
-    GEODES_SEARCH_COLLECTIONS_ENDPOINT,
-    MAX_PAGE_SIZE,
-    MAX_NB_ITEMS,
-    GEODES_SEARCH_ITEMS_ENDPOINT,
-    GEODES_AVAILABILITY_ENDPOINT,
-    GEODES_LIST_PROCESSING_ENDPOINT,
-    GEODES_PROCESSING_EXECUTION_ENDPOINT,
-    CONFIG_DEFAULT_FILENAME,
-)
 from pygeodes.utils.config import Config
-from pygeodes.utils.request import valid_url
-from pygeodes.utils.exceptions import (
-    InvalidURLException,
-    TooManyResultsException,
-)
-from pygeodes.utils.request import (
-    SyncRequestMaker,
-    AsyncRequestMaker,
-    make_params,
-    check_all_different,
-)
-from pygeodes.utils.logger import logger
-from pygeodes.utils.formatting import (
-    format_collections,
-    format_items,
-)
-from pygeodes.utils.stac import Item, Collection
+# local imports ---------------------------------------------------
+from pygeodes.utils.consts import (CONFIG_DEFAULT_FILENAME,
+                                   GEODES_AVAILABILITY_ENDPOINT,
+                                   GEODES_DEFAULT_URL,
+                                   GEODES_LIST_PROCESSING_ENDPOINT,
+                                   GEODES_PROCESSING_EXECUTION_ENDPOINT,
+                                   GEODES_SEARCH_COLLECTIONS_ENDPOINT,
+                                   GEODES_SEARCH_ITEMS_ENDPOINT, MAX_NB_ITEMS,
+                                   MAX_PAGE_SIZE)
 from pygeodes.utils.decorators import requires_api_key
 from pygeodes.utils.download import correct_download_tld
+from pygeodes.utils.exceptions import (InvalidURLException,
+                                       TooManyResultsException)
+from pygeodes.utils.formatting import format_collections, format_items
 from pygeodes.utils.io import filenames_respecting_regex, write_json
-from pygeodes.utils.s3 import (
-    create_boto3_client,
-    download_item as download_item_from_s3,
-)
-from pygeodes.utils.profile import (
-    Download,
-    Profile,
-    load_profile_and_save_download,
-)
-
+from pygeodes.utils.logger import logger
+from pygeodes.utils.profile import (Download, Profile,
+                                    load_profile_and_save_download)
 from pygeodes.utils.query import full_text_search_in_jsons
+from pygeodes.utils.request import (AsyncRequestMaker, SyncRequestMaker,
+                                    check_all_different, make_params,
+                                    valid_url)
+from pygeodes.utils.s3 import create_boto3_client
+from pygeodes.utils.s3 import download_item as download_item_from_s3
+from pygeodes.utils.stac import Collection, Item
 
 
 class Geodes:
@@ -116,16 +98,19 @@ class Geodes:
         return_df: bool = True,
         quiet: bool = False,
     ) -> List[Collection]:
+
         logger.debug(f"usage of search_collections with query = {query}")
         endpoint = GEODES_SEARCH_COLLECTIONS_ENDPOINT
 
         params = make_params(query=query, page=1)
+        params["limit"] = 500
 
         logger.debug(f"querying with params : {params}")
         response = self.request_maker.post(endpoint, data=params)
         returned = response.json().get("context").get("returned")
 
         if full_text_search is not None:
+
             logger.debug(f"Using full text search")
             collections_jsons = full_text_search_in_jsons(
                 response.json().get("collections"),
@@ -138,6 +123,7 @@ class Geodes:
             )
 
         else:
+
             collections_jsons = response.json().get("collections")
             if not len(collections_jsons) == returned:
                 warnings.warn(
@@ -169,11 +155,13 @@ class Geodes:
         query: dict = None,
         bbox: List[float] = None,
         intersects: dict = None,
-        get_all: bool = True,
+        get_all: bool = False,
         page: int = 1,
         return_df: bool = True,
         quiet: bool = False,
+        collections: list[str] = None,
     ) -> List[Item]:
+
         logger.debug(f"usage of search_items with query = {query}")
         endpoint = GEODES_SEARCH_ITEMS_ENDPOINT
 
@@ -183,8 +171,13 @@ class Geodes:
             )
 
         if get_all:  # we want all results matching the query
+
             params = make_params(
-                query=query, page=1, bbox=bbox, intersects=intersects
+                query=query,
+                page=1,
+                bbox=bbox,
+                intersects=intersects,
+                collections=collections,
             )
             response = self.request_maker.post(endpoint, data=params)
             json_obj = response.json()
@@ -211,13 +204,18 @@ class Geodes:
             endpoints = [endpoint for _ in range(2, nb_pages_full + 1)]
             datas = [
                 make_params(
-                    page=_page, query=query, bbox=bbox, intersects=intersects
+                    page=_page,
+                    query=query,
+                    bbox=bbox,
+                    intersects=intersects,
+                    collections=collections,
                 )
                 for _page in range(2, nb_pages_full + 1)
             ]
 
             # async
             if self.conf.use_async_requests:
+
                 async_rqm = AsyncRequestMaker(self.conf.api_key, self.base_url)
                 responses = async_rqm.post(endpoints=endpoints, datas=datas)
                 for response in responses:
@@ -229,6 +227,7 @@ class Geodes:
                     )
 
             else:
+
                 for endpoint, data in tqdm(
                     zip(endpoints, datas), total=len(endpoints), leave=False
                 ):
@@ -266,8 +265,13 @@ class Geodes:
                 warnings.warn(f"there are duplicate items in your response")
 
         else:
+
             params = make_params(
-                query=query, page=page, bbox=bbox, intersects=intersects
+                query=query,
+                page=page,
+                bbox=bbox,
+                intersects=intersects,
+                collections=collections,
             )
 
             logger.debug(f"querying with params : {params}")
@@ -308,16 +312,19 @@ class Geodes:
     )  # requires api key but can also work with just S3 credentials
     def download_item_archive(self, item: Item, outfile: str = None):
         if outfile is None:
+
             outfile = item.data_asset.title
 
             if self.conf.download_dir:
                 outfile = Path(self.conf.download_dir).joinpath(outfile)
 
         else:
+
             if not os.path.isabs(outfile):
                 outfile = Path(self.conf.download_dir).joinpath(outfile)
 
         if self.s3_client is not None:
+
             download_for_profile = Download(
                 url=item.find("accessService:endpointURL"), destination=outfile
             )
@@ -328,6 +335,7 @@ class Geodes:
             )
 
         else:
+
             download_url = correct_download_tld(
                 item.data_asset.href
             )  # temp as top level domains aren't ok
@@ -359,18 +367,22 @@ class Geodes:
     def download_item_archives(
         self, items: List[Item], outfiles: List[str] = None
     ):
+
         if (
             self.conf.use_async_requests and self.s3_client is None
         ):  # can't use async requests with s3_client
+
             async_rqm = AsyncRequestMaker(self.conf.api_key, self.base_url)
             endpoints = [
                 correct_download_tld(item.data_asset.href) for item in items
             ]
 
             if outfiles is None:
+
                 outfiles = [item.data_asset.title for item in items]
 
                 if self.conf.download_dir:
+
                     outfiles = [
                         Path(self.conf.download_dir).joinpath(outfile)
                         for outfile in outfiles
@@ -392,6 +404,7 @@ class Geodes:
                 print(f"All downloads completed in {self.conf.download_dir}")
 
         else:
+
             if outfiles is None:
                 outfiles = [None for item in items]
 
@@ -403,6 +416,7 @@ class Geodes:
                     self.download_item_archive(item, outfile)
 
             else:
+
                 print(f"Downloading {len(items)} items from geodes")
                 for item, outfile in zip(items, outfiles):
                     self.download_item_archive(item, outfile)

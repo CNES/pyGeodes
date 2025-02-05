@@ -8,15 +8,17 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
-# stdlib imports -------------------------------------------------------
-from typing import List
 import warnings
 from time import perf_counter
+
+# stdlib imports -------------------------------------------------------
+from typing import List
+
 from tqdm import tqdm
+from whoosh.fields import NGRAM, STORED, TEXT, Schema
 
 # third-party imports -----------------------------------------------
 from whoosh.filedb.filestore import RamStorage
-from whoosh.fields import TEXT, Schema, STORED
 from whoosh.qparser import MultifieldParser, OrGroup
 
 # local imports ---------------------------------------------------
@@ -25,8 +27,8 @@ from pygeodes.utils.consts import (
     KNOWN_ITEM_REQUESTABLE_ARGUMENTS,
     REQUESTABLE_ARGS_FILEPATH,
 )
-from pygeodes.utils.logger import logger
 from pygeodes.utils.io import load_json
+from pygeodes.utils.logger import logger
 
 
 def get_requestable_args():
@@ -126,22 +128,28 @@ def full_text_search_in_jsons(
     }
 
     with warnings.catch_warnings():  # because sometimes whoosh raises a unexpected warning
-        schema_components = {field: TEXT for field in fields_to_index}
+        schema_components = {
+            field: TEXT if field != "id" else NGRAM for field in fields_to_index
+        }
         if key_field in fields_to_index:
-            schema_components[key_field] = TEXT(stored=True)
+            if key_field != "id":
+                schema_components[key_field] = TEXT(stored=True)
+            else:
+                schema_components[key_field] = NGRAM(
+                    minsize=3, stored=True, field_boost=10.0
+                )
         else:
             schema_components[key_field] = STORED
-
         schema = Schema(**schema_components)
         ix = RamStorage().create_index(schema)
         writer = ix.writer()
         for json_obj in tqdm(dico.values(), "Indexing"):
+
             to_add = {
                 field: str(get_from_dico_path(field, json_obj))
                 for field in fields_to_index
             }
             to_add[key_field] = str(get_from_dico_path(key_field, json_obj))
-
             writer.add_document(**to_add)
         writer.commit()
 
@@ -151,8 +159,8 @@ def full_text_search_in_jsons(
 
         with ix.searcher() as searcher:
             query = query.parse(search_term)
-            results = searcher.search(query, terms=True)
-            print(
+            results = searcher.search(query, terms=True, limit=None)
+            logger.debug(
                 f"Matched terms for {search_term=} : {results.matched_terms()}"
             )
             ids = [result.get(key_field) for result in results]
@@ -196,9 +204,11 @@ def full_text_search(objects, search_term, return_index: bool = False):
     )
 
     if return_index:
+
         return [_type.from_dict(json_obj) for json_obj in results[0]], results[
             1
         ]
 
     else:
+
         return [_type.from_dict(json_obj) for json_obj in results]

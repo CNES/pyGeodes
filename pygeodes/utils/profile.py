@@ -9,41 +9,38 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
-# stdlib imports -------------------------------------------------------
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
 import os
-from typing import Literal, List
-from time import sleep
-from uuid import uuid4
-from pathlib import Path
 import warnings
+
+# stdlib imports -------------------------------------------------------
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta
+from pathlib import Path
+from time import sleep
+from typing import List, Literal
+from uuid import uuid4
 
 # third-party imports -----------------------------------------------
 from rich.live import Live
 from rich.table import Table
 from tqdm import tqdm
 
-# local imports ---------------------------------------------------
-from pygeodes.utils.io import (
-    load_json,
-    file_exists,
-    write_json,
-    compute_md5,
-)
 from pygeodes.utils.consts import PROFILE_DEFAULT_PATH
 from pygeodes.utils.dataclasses_utils import class_from_args
-from pygeodes.utils.stac import Item
 from pygeodes.utils.datetime_utils import (
+    a_week_ago,
     datetime_to_str,
     str_to_datetime,
-    a_week_ago,
-    today,
     time_ago,
+    today,
 )
-from pygeodes.utils.logger import logger
 from pygeodes.utils.download import correct_download_tld
+
+# local imports ---------------------------------------------------
+from pygeodes.utils.io import compute_md5, file_exists, load_json, write_json
+from pygeodes.utils.logger import logger
 from pygeodes.utils.s3 import download_item as download_item_from_s3
+from pygeodes.utils.stac import Item
 
 
 @dataclass
@@ -193,6 +190,7 @@ class Profile:
                     )
                     sleep(refresh_rate)
             else:
+
                 started = datetime.now()
 
                 def create_table():
@@ -365,6 +363,7 @@ class DownloadQueue:
         download_for_profile.destination = outfile
 
         if self.geodes_instance.s3_client is not None:
+
             download_for_profile.url = item.find("accessService:endpointURL")
             download_for_profile.start()
             load_profile_and_save_download(download_for_profile)
@@ -374,6 +373,7 @@ class DownloadQueue:
             )
 
         else:
+
             download_url = correct_download_tld(
                 item.data_asset.href
             )  # temp as top level domains aren't ok

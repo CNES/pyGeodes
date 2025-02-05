@@ -18,9 +18,9 @@ from botocore.client import Config as botocore_config
 # local imports ---------------------------------------------------
 from pygeodes.utils.config import Config
 from pygeodes.utils.consts import DATALAKE_URL
-from pygeodes.utils.stac import Item
 from pygeodes.utils.io import check_if_folder_already_contains_file
 from pygeodes.utils.logger import logger
+from pygeodes.utils.stac import Item
 
 
 def create_boto3_client(conf: Config):

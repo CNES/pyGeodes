@@ -8,23 +8,25 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
+import json
+import warnings
+
 # stdlib imports -------------------------------------------------------
 from typing import List, Union
-import warnings
-import json
 
 # third-party imports -----------------------------------------------
 import geopandas as pd
 from shapely.geometry import shape
 
-# local imports ---------------------------------------------------
-from pygeodes.utils.stac import Collection, Item
 from pygeodes.utils.consts import (
     COLUMNS_TO_KEEP_FORMATTING_COLLECTIONS,
     COLUMNS_TO_KEEP_FORMATTING_ITEMS,
     GEOPANDAS_DEFAULT_EPSG,
 )
 from pygeodes.utils.io import write_json
+
+# local imports ---------------------------------------------------
+from pygeodes.utils.stac import Collection, Item
 
 
 def get_from_dico_path(
@@ -201,7 +203,7 @@ def load_dataframe(filepath: str):
     export_dataframe : to export a dataframe into a file
 
     """
-    from pygeodes.utils.stac import Item, Collection
+    from pygeodes.utils.stac import Collection, Item
 
     df = pd.GeoDataFrame.from_file(filepath)
     if "item" in df.columns:

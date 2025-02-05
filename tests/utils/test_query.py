@@ -1,13 +1,12 @@
-from tests.test_case import PyGeodesTestCase
-from tests.testutils import random_string, random_int
-from tests.serializer import load_serialized_collection, load_serialized_item
-
 from pygeodes.utils.query import (
-    Query,
     Argument,
-    full_text_search_in_jsons,
+    Query,
     full_text_search,
+    full_text_search_in_jsons,
 )
+from tests.serializer import load_serialized_collection, load_serialized_item
+from tests.test_case import PyGeodesTestCase
+from tests.testutils import random_int, random_string
 
 
 class TestQuery(PyGeodesTestCase):

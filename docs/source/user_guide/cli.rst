@@ -22,7 +22,7 @@ Searching items
 
 The command line let's you search for items, which you can do by using the command ``search``, whose options are : 
 
--c, --collections     wether to search in collections instead of items
+-cs, --collections_search     wether to search in collections instead of items
 --start-date START_DATE
                     the lower bound of the acquisition date of the item you want to search
 --end-date END_DATE   the upper bound of the acquisition of the item you want to search
@@ -34,6 +34,8 @@ The command line let's you search for items, which you can do by using the comma
                     a bounding box in which you could want to search, e.g. : 1.3 44.6 2.1 44.9
 -o OUTPUT, --output OUTPUT
                     the json file to export the results to, if not specified results will just be displayed
+-c COLLECTIONS, --collections COLLECTIONS
+                    the collection of the item you want to search
 
 For example, to search items in bbox ``[1.3,44.6,2.1,44.9]`` whose acquisition date is before the 29th of January, 2006, you can use :
 
@@ -56,7 +58,7 @@ For example, to search a collection which is related to the term *grd*, you can 
 
 .. code-block:: bash
 
-    pygeodes search -c "grd"
+    pygeodes search -cs "grd"
 
 Downloading items from id
 -------------------------

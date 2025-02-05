@@ -1,18 +1,17 @@
 import os
 
-from tests.test_case import PyGeodesTestCase
-from tests import TEST_ENV_DIR
-from tests.testutils import random_dict
-
 from pygeodes.utils.io import (
     file_exists,
-    filenames_respecting_regex,
     filename_in_folder,
+    filenames_respecting_regex,
     find_unused_filename,
+    load_json,
     similar_filenames,
     write_json,
-    load_json,
 )
+from tests import TEST_ENV_DIR
+from tests.test_case import PyGeodesTestCase
+from tests.testutils import random_dict
 
 
 def write_empty_file(path: str):

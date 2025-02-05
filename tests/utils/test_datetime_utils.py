@@ -1,19 +1,19 @@
-from pygeodes.utils.datetime_utils import (
-    datetime_to_str,
-    str_to_datetime,
-    complete_datetime_from_str,
-)
-
-from tests.test_case import PyGeodesTestCase
-from tests.testutils import random_date
 from pygeodes.utils.consts import (
     DATETIME_FORMAT,
     OTHER_SUPPORTED_DATETIME_FORMATS,
 )
+from pygeodes.utils.datetime_utils import (
+    complete_datetime_from_str,
+    datetime_to_str,
+    str_to_datetime,
+)
+from tests.test_case import PyGeodesTestCase
+from tests.testutils import random_date
 
 
 class TestDatetimeUtils(PyGeodesTestCase):
     def test_datetime_to_str(self):
+
         NB_TESTS = 10000  # to test various configurations
 
         for _ in range(NB_TESTS):
@@ -22,6 +22,7 @@ class TestDatetimeUtils(PyGeodesTestCase):
             self.assertEqual(to_str, string)
 
     def test_str_to_datetime(self):
+
         NB_TESTS = 10000  # to test various configurations
 
         for _ in range(NB_TESTS):

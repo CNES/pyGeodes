@@ -9,47 +9,47 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
-# stdlib imports -------------------------------------------------------
-from typing import Dict, Any, List
+import asyncio
 import json
 import time
-import asyncio
 import warnings
 from time import perf_counter
 
+# stdlib imports -------------------------------------------------------
+from typing import Any, Dict, List
+from urllib.parse import urljoin
+
+import aiofiles
+import aiohttp
+import remotezip
 
 # third-party imports -----------------------------------------------
 import requests
+import validators
 from requests.adapters import HTTPAdapter, Retry
-from urllib.parse import urljoin
 from tqdm import tqdm
 from tqdm.asyncio import tqdm as tqdm_async
-import remotezip
-import validators
-import aiohttp
-import aiofiles
+
+from pygeodes.utils.consts import (
+    DOWNLOAD_CHUNK_SIZE,
+    MAX_CONCURRENT_DOWNLOADS,
+    MAX_NB_RETRIES,
+    MAX_PAGE_SIZE,
+    REQUESTS_TIMEOUT,
+    SSL_CERT_PATH,
+    TIME_BEFORE_RETRY,
+)
+from pygeodes.utils.decorators import uses_session
+from pygeodes.utils.exceptions import InvalidChecksumException
+from pygeodes.utils.io import (
+    check_if_folder_already_contains_file,
+    compute_md5,
+    file_exists,
+    find_unused_filename,
+)
 
 # local imports ---------------------------------------------------
 from pygeodes.utils.logger import logger
-from pygeodes.utils.io import (
-    find_unused_filename,
-    compute_md5,
-    check_if_folder_already_contains_file,
-    file_exists,
-)
-from pygeodes.utils.exceptions import (
-    InvalidChecksumException,
-)
-from pygeodes.utils.consts import (
-    MAX_PAGE_SIZE,
-    DOWNLOAD_CHUNK_SIZE,
-    MAX_NB_RETRIES,
-    TIME_BEFORE_RETRY,
-    REQUESTS_TIMEOUT,
-    SSL_CERT_PATH,
-    MAX_CONCURRENT_DOWNLOADS,
-)
-from pygeodes.utils.decorators import uses_session
 from pygeodes.utils.profile import (
     Download,
     Profile,
@@ -58,7 +58,11 @@ from pygeodes.utils.profile import (
 
 
 def make_params(
-    page: int, query: dict, bbox: List[float] = None, intersects: dict = None
+    page: int,
+    query: dict,
+    bbox: List[float] = None,
+    intersects: dict = None,
+    collections: List[str] = None,
 ):
     return {
         "page": page,
@@ -66,6 +70,7 @@ def make_params(
         "limit": MAX_PAGE_SIZE,
         "bbox": bbox,
         "intersects": intersects,
+        "collections": collections,
     }
 
 
@@ -198,6 +203,7 @@ class SyncRequestMaker(RequestMaker):
         endpoint: str,
         headers: Dict[str, str] = None,
     ) -> Any:
+
         url = self.get_full_url(endpoint)
         logger.debug(f"making GET request to {url}")
 
@@ -242,6 +248,7 @@ class SyncRequestMaker(RequestMaker):
         data: Dict[str, str],
         headers: Dict[str, str] = None,
     ) -> Any:
+
         url = self.get_full_url(endpoint)
 
         if not headers:
@@ -306,6 +313,7 @@ class SyncRequestMaker(RequestMaker):
     def extract_file_from_archive(
         self, archive_url: str, filename: str, download_dir: str
     ):
+
         logger.debug(
             f"Downloading file {filename} from archive {archive_url} in {download_dir}"
         )
@@ -320,6 +328,7 @@ class SyncRequestMaker(RequestMaker):
 
 
 class AsyncRequestMaker(RequestMaker):
+
     def download_files(
         self,
         endpoints: List[str],
@@ -353,6 +362,7 @@ class AsyncRequestMaker(RequestMaker):
             logger.debug(f"Download completed at {outfile}")
 
     async def download_files_async(self, endpoints: List[str], outfiles: str):
+
         sem = asyncio.Semaphore(MAX_CONCURRENT_DOWNLOADS)
 
         async def fetch(
@@ -360,6 +370,7 @@ class AsyncRequestMaker(RequestMaker):
             endpoint: str,
             outfile: str,
         ):
+
             url = self.get_full_url(endpoint)
 
             download_for_profile = Download(url=url, destination=outfile)
@@ -367,11 +378,13 @@ class AsyncRequestMaker(RequestMaker):
             load_profile_and_save_download(download_for_profile)
 
             async with sem:
+
                 async with session.get(
                     url,
                     headers={**self.get_headers},
                     ssl=False,
                 ) as response:
+
                     if response.status == 200:
                         async with aiofiles.open(outfile, "wb") as f:
                             async for chunk in response.content.iter_chunked(
@@ -441,6 +454,7 @@ class AsyncRequestMaker(RequestMaker):
         headers: List[Dict[str, str]],
         datas: List[Dict],
     ):
+
         async def fetch(
             session: aiohttp.ClientSession,
             endpoint: str,
@@ -459,6 +473,7 @@ class AsyncRequestMaker(RequestMaker):
                 data=json.dumps(data),
                 ssl=False,
             ) as response:
+
                 return await self.control(response)
 
         async with aiohttp.ClientSession() as session:
@@ -468,13 +483,14 @@ class AsyncRequestMaker(RequestMaker):
             ]
             responses = await tqdm_async.gather(*tasks, total=len(endpoints))
 
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
 
         return responses
 
     async def get_async(
         self, endpoints: List[str], headers: List[Dict[str, str]]
     ):
+
         async def fetch(
             session: aiohttp.ClientSession,
             endpoint: str,
@@ -496,6 +512,6 @@ class AsyncRequestMaker(RequestMaker):
             ]
             responses = await tqdm_async.gather(*tasks, total=len(endpoints))
 
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
 
         return responses

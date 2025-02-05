@@ -15,10 +15,10 @@
 # stdlib imports -------------------------------------------------------
 import argparse
 
-# third-party imports -----------------------------------------------
-
 # local imports ---------------------------------------------------
-from pygeodes._info import version, name, description, author
+from pygeodes._info import author, description, name, version
+
+# third-party imports -----------------------------------------------
 
 
 def parse_args():
@@ -50,6 +50,13 @@ def parse_args():
     search.add_argument(
         "-c",
         "--collections",
+        type=str,
+        help="the collection of the item you want to search",
+    )
+
+    search.add_argument(
+        "-cs",
+        "--collections_search",
         type=str,
         help="allows you to search in collections instead of items, providing a search term that will be used to search in full text",
     )

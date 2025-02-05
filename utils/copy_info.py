@@ -1,7 +1,8 @@
 """This scripts copies project metadata from pyproject.toml file into a pygeodes/_info to provide info about the lib in the CLI"""
 
-import toml
 from pathlib import Path
+
+import toml
 
 pyproject = Path(__file__).resolve().parent.parent.joinpath("pyproject.toml")
 

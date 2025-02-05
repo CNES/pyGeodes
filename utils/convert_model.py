@@ -1,9 +1,10 @@
 """This script takes a geodes data model XML file as an input and generates a simplified JSON at pygeodes/data/model.json, to provide a summary of all requestable args"""
 
-import sys
-from bs4 import BeautifulSoup
 import json
+import sys
 from pathlib import Path
+
+from bs4 import BeautifulSoup
 
 
 def parse(filename: str):

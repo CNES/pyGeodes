@@ -1,9 +1,10 @@
 import json
 from argparse import Namespace
-from pygeodes.utils.io import file_exists, load_json
-from pygeodes.geodes import Geodes
 
 from rich.table import Table
+
+from pygeodes.geodes import Geodes
+from pygeodes.utils.io import file_exists, load_json
 
 
 def deal_with_query_and_conf(args: Namespace):
@@ -36,14 +37,19 @@ def table_from_dataframe(dataframe, title: str = "Search results"):
     table = Table(title=title, expand=True)
 
     if dataframe is not None:
+
         if "item" in dataframe.columns:
             dataframe = dataframe.drop(
                 columns=["item", "geometry"]
             )  # items dataframe
         else:
-            dataframe = dataframe.drop(
-                columns=["collection"]
-            )  # collections dataframe
+            dataframe = dataframe.drop(columns=["title"])  #
+            dataframe["collection"] = (
+                dataframe["collection"].apply(lambda x: x.id).astype(str)
+            )
+            # dataframe = dataframe.drop(
+            #     columns=["collection"]
+            # )  # collections dataframe
 
         for column in dataframe.columns:
             table.add_column(column)

@@ -15,28 +15,26 @@
 # stdlib imports -------------------------------------------------------
 import sys
 
+from rich.console import Console
+
 # third-party imports -----------------------------------------------
 from rich.status import Status
-from rich.console import Console
 from rich.syntax import Syntax
 
+from pygeodes._info import version
 
 # local imports ---------------------------------------------------
 from pygeodes.cli.argparser import parse_args
-from pygeodes.utils.io import file_exists
-from pygeodes.utils.config import Config
-from pygeodes.utils.profile import Profile
-from pygeodes._info import version
-from pygeodes.geodes import Geodes
-from pygeodes.utils.formatting import export_dataframe
-from pygeodes.utils.datetime_utils import (
-    complete_datetime_from_str,
-)
-
 from pygeodes.cli.cli_utils import (
     deal_with_query_and_conf,
     table_from_dataframe,
 )
+from pygeodes.geodes import Geodes
+from pygeodes.utils.config import Config
+from pygeodes.utils.datetime_utils import complete_datetime_from_str
+from pygeodes.utils.formatting import export_dataframe, format_items
+from pygeodes.utils.io import file_exists
+from pygeodes.utils.profile import Profile
 
 
 def watch_downloads(args):
@@ -44,7 +42,10 @@ def watch_downloads(args):
 
 
 def download(args):
-    geodes = Geodes(conf=args.conf)
+    if args.api_key is not None:
+        geodes = Geodes(conf=Config(api_key=args.api_key))
+    else:
+        geodes = Geodes(conf=args.conf)
     items = geodes.search_items(
         query={"accessService:endpointURL": {"contains": args.id}},
         quiet=True,
@@ -65,12 +66,13 @@ def download(args):
 def search(args):
     geodes, query_dict = deal_with_query_and_conf(args)
     console = Console()
-    if args.collections:
+    if args.collections_search:
+
         with Status(
-            f"Searching collections with search term = {args.collections}"
+            f"Searching collections with search term = {args.collections_search}"
         ):
             collections, dataframe = geodes.search_collections(
-                full_text_search=args.collections
+                full_text_search=args.collections_search
             )
 
         if args.output:
@@ -82,12 +84,12 @@ def search(args):
                     f"No dataframe was exported has query didn't return any collection"
                 )
             exit()
-
-        title = f"Collections found for search term = {args.collections} ({len(collections)} in table)"
+        title = f"Collections found for search term = {args.collections_search} ({len(collections)} in table)"
         table = table_from_dataframe(dataframe, title=title)
         console.print(table)
 
     else:
+
         get_all = False
         if args.output:
             get_all = True
@@ -113,9 +115,17 @@ def search(args):
         with Status(
             f"Searching items with bbox={args.bbox} and query={query_dict}"
         ):
+
             items, dataframe = geodes.search_items(
-                query=query_dict, bbox=args.bbox, get_all=get_all
+                query=query_dict,
+                bbox=args.bbox,
+                get_all=get_all,
+                collections=args.collections.strip().split(","),
             )
+
+        dataframe = format_items(dataframe, {"identifier"})
+        dataframe["id"] = dataframe["identifier"]
+        dataframe = dataframe.drop(columns=["identifier"])
 
         if args.output:
             if dataframe is not None:

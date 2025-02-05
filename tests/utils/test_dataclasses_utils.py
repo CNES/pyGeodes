@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from tests.test_case import PyGeodesTestCase
-from tests.testutils import random_int, random_float, random_string
 from pygeodes.utils.dataclasses_utils import class_from_args
+from tests.test_case import PyGeodesTestCase
+from tests.testutils import random_float, random_int, random_string
 
 
 class TestDataclassesUtils(PyGeodesTestCase):

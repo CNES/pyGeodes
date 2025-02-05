@@ -1,19 +1,19 @@
-import os
-import shutil
-import random
-import datetime
 import calendar
+import datetime
+import os
+import random
+import shutil
 import string
-from io import StringIO
-import sys
-from typing import Callable
 import subprocess
+import sys
+from io import StringIO
 from pathlib import Path
+from typing import Callable
 
 from tests import (
-    VALID_API_KEY_PATH,
     TEST_ENV_DOWNLOAD_DIR,
     TEST_ENV_S3_DOWNLOAD_DIR,
+    VALID_API_KEY_PATH,
 )
 
 

@@ -12,17 +12,19 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
-# stdlib imports -------------------------------------------------------
-import unittest
 import os
 
-# third-party imports -----------------------------------------------
+# stdlib imports -------------------------------------------------------
+import unittest
+
+from pygeodes.utils.io import load_json
 
 # local imports ---------------------------------------------------
 from pygeodes.utils.logger import logger
-from pygeodes.utils.io import load_json
 from tests import TEST_ENV_DIR, TESTS_DIR, VALID_API_KEY_PATH
 from tests.testutils import check_presence_of_valid_api_key
+
+# third-party imports -----------------------------------------------
 
 
 class PyGeodesTestCase(unittest.TestCase):

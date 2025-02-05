@@ -1,17 +1,16 @@
 import unittest
 
+from pygeodes.geodes import Geodes
+from pygeodes.utils.config import Config
+from pygeodes.utils.io import compute_md5, file_exists
+from pygeodes.utils.s3 import create_boto3_client, download_item
 from tests import TEST_ENV_DOWNLOAD_DIR, TEST_ENV_S3_DOWNLOAD_DIR
+from tests.serializer import load_serialized_item
 from tests.test_case import PyGeodesTestCase
 from tests.testutils import (
     empty_test_env_download_dir,
     empty_test_env_s3_download_dir,
 )
-from tests.serializer import load_serialized_item
-
-from pygeodes.utils.s3 import create_boto3_client, download_item
-from pygeodes.utils.config import Config
-from pygeodes.utils.io import file_exists, compute_md5
-from pygeodes.geodes import Geodes
 
 # CREDENTIALS = get_s3_credentials()
 
@@ -34,6 +33,7 @@ class TestS3(PyGeodesTestCase):
 
     @unittest.skip("can't be tested without valid credentials")
     def test_create_boto3_client(self):
+
         conf = Config(**CREDENTIALS)
         client = create_boto3_client(conf)
 

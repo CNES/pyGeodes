@@ -12,13 +12,13 @@
 from datetime import datetime, timedelta
 from typing import Tuple
 
-# third-party imports -----------------------------------------------
-
 # local imports ---------------------------------------------------
 from pygeodes.utils.consts import (
     DATETIME_FORMAT,
     OTHER_SUPPORTED_DATETIME_FORMATS,
 )
+
+# third-party imports -----------------------------------------------
 
 
 def time_ago(date: datetime) -> str:

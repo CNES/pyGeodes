@@ -10,23 +10,24 @@
 
 # stdlib imports -------------------------------------------------------
 import sys
-from dataclasses import dataclass, fields, asdict
-from typing import Literal
-from pathlib import Path, PosixPath
 import warnings
+from dataclasses import asdict, dataclass, fields
+from pathlib import Path, PosixPath
+from typing import Literal
 
-# third-party imports -----------------------------------------------
-
-# local imports ---------------------------------------------------
-from pygeodes.utils.io import load_json, file_exists
-from pygeodes.utils.dataclasses_utils import class_from_args
-from pygeodes.utils.logger import logger
 from pygeodes.utils.consts import (
     CONFIG_DEFAULT_FILENAME,
     DEFAULT_LOGGING_LEVEL,
     DEFAULT_S3_REGION_NAME,
 )
+from pygeodes.utils.dataclasses_utils import class_from_args
 from pygeodes.utils.exceptions import MissingConfParamException
+
+# local imports ---------------------------------------------------
+from pygeodes.utils.io import file_exists, load_json
+from pygeodes.utils.logger import logger
+
+# third-party imports -----------------------------------------------
 
 
 def notebook_environment() -> bool:

@@ -7,24 +7,27 @@
 # REFERENCES:
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
+import os
+import base64
 
 # stdlib imports -------------------------------------------------------
 import warnings
-import base64
+
+from IPython.display import Image, display
+from pystac.asset import Asset as StacAsset
 
 # third-party imports -----------------------------------------------
 from pystac.collection import Collection as StacCollection
 from pystac.item import Item as StacItem
-from pystac.asset import Asset as StacAsset
-from IPython.display import Image, display
 
-# local imports ---------------------------------------------------
-from pygeodes.utils.query import Query
 from pygeodes.utils.consts import CORRECT_STAC_VERSION
 from pygeodes.utils.exceptions import (
     DataAssetMissingException,
     RequiresApiKeyException,
 )
+
+# local imports ---------------------------------------------------
+from pygeodes.utils.query import Query
 
 
 def correct_stac_version(collection_dict: dict) -> dict:
@@ -46,6 +49,7 @@ def get_keys_from_dict(dico):
 
 
 class Collection(StacCollection):
+
     @classmethod
     def from_stac_collection(cls, collection: StacCollection):
         return Collection.from_dict(collection.to_dict())
@@ -68,6 +72,7 @@ class Collection(StacCollection):
 
 
 class Asset(StacAsset):
+
     def __str__(self):
         return f"Asset(title={self.title},roles={self.roles})"
 
@@ -149,9 +154,18 @@ class Item(StacItem):
 
     @property
     def data_asset(self):
+        possible_data_asset = []
+        # Get all "data" assets
         for asset in self.assets.values():
             if "data" in asset.roles:
+                possible_data_asset.append(asset)
+        # Prefer zip file as data asset
+        for asset in possible_data_asset:
+            if os.path.splitext(asset.title)[-1] == ".zip":
                 return asset
+        # Get the first one if not zip file found
+        if len(possible_data_asset) > 0:
+            return possible_data_asset[0]
 
         raise DataAssetMissingException(
             f"The item {self.id} has no data asset (has assets : {self.assets.values()})"

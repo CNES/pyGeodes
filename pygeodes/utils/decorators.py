@@ -8,14 +8,15 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
-# stdlib imports -------------------------------------------------------
-from typing import Callable
 from functools import wraps
 
-# third-party imports -----------------------------------------------
+# stdlib imports -------------------------------------------------------
+from typing import Callable
 
 # local imports ---------------------------------------------------
 from pygeodes.utils.exceptions import RequiresApiKeyException
+
+# third-party imports -----------------------------------------------
 
 
 def requires_api_key(
@@ -26,6 +27,7 @@ def requires_api_key(
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
+
             for arg in args:
                 if (
                     arg.__class__.__name__ == "Geodes"
@@ -37,6 +39,7 @@ def requires_api_key(
                                     f"The use of function `{arg.__class__.__name__}.{func.__name__}` requires an api_key or s3 credentials, please specify some in your config JSON file"
                                 )
                         else:
+
                             raise RequiresApiKeyException(
                                 f"The use of function `{arg.__class__.__name__}.{func.__name__}` requires an api_key, please specify one in your config JSON file"
                             )

@@ -11,10 +11,11 @@
 # stdlib imports -------------------------------------------------------
 import logging
 
-# third-party imports -----------------------------------------------
-
 # local imports ---------------------------------------------------
 from pygeodes.utils.consts import DEFAULT_LOGGING_LEVEL
+
+# third-party imports -----------------------------------------------
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(DEFAULT_LOGGING_LEVEL)

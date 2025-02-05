@@ -8,25 +8,28 @@
 # https://cnes.fr/
 # -----------------------------------------------------------------------------
 
+import hashlib
+
 # stdlib imports -------------------------------------------------------
 import json
 import os
-import hashlib
-from time import perf_counter
-from difflib import SequenceMatcher as SM
-from typing import List
 import re
-from pathlib import Path
+from difflib import SequenceMatcher as SM
 from json import JSONEncoder
+from pathlib import Path
+from time import perf_counter
+from typing import List
 
-# third-party imports -----------------------------------------------
+from pygeodes.utils.consts import (
+    FOLDER_CONSIDERED_BIG_SIZE,
+    MAX_TIME_BEFORE_ABORTING_FOLDER_CHECKSUM,
+)
 
 # local imports ---------------------------------------------------
 from pygeodes.utils.logger import logger
-from pygeodes.utils.consts import (
-    MAX_TIME_BEFORE_ABORTING_FOLDER_CHECKSUM,
-    FOLDER_CONSIDERED_BIG_SIZE,
-)
+
+# third-party imports -----------------------------------------------
+
 
 DEFAULT_FILESEARCH_TIMEOUT = 2
 
@@ -237,6 +240,7 @@ def check_if_folder_already_contains_file(filepath: str, file_checksum: str):
     if (
         len(listdir) > FOLDER_CONSIDERED_BIG_SIZE
     ):  # too big folder to test all checksums
+
         sim_filenames = similar_filenames(
             filename, listdir
         )  # que les noms de fichiers ressemblant, qui ont plus de chance d'avoir le même contenu

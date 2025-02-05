@@ -1,11 +1,10 @@
 from pystac.collection import Collection
 
 from pygeodes.geodes import Geodes
-from pygeodes.utils.stac import Item, Collection
 from pygeodes.utils.config import Config
-from pygeodes.utils.io import load_json, write_json, file_exists
-
-from tests import VALID_API_KEY_PATH, TEST_ENV_SERIALIZED_DIR
+from pygeodes.utils.io import file_exists, load_json, write_json
+from pygeodes.utils.stac import Collection, Item
+from tests import TEST_ENV_SERIALIZED_DIR, VALID_API_KEY_PATH
 from tests.testutils import check_presence_of_valid_api_key
 
 COLLECTION_SERIALIZED_PATH = TEST_ENV_SERIALIZED_DIR.joinpath("collection.json")
