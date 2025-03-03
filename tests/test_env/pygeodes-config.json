@@ -1,7 +1,7 @@
 {
     "api_key": null,
     "logging_level": "INFO",
-    "download_dir": "/home/ad/charlesl/Desktop/production/pygeodes/pygeodes/tests/test_env",
+    "download_dir": "./pygeodes/tests/test_env",
     "checksum_error": true,
     "use_async_requests": true,
     "aws_access_key_id": null,
