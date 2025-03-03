@@ -28,7 +28,7 @@ To see the docs, please go to [https://CNES.github.io/pyGeodes/](https://cnes.gi
 
 ### From PyPi
 
-You can install from PyPi by following those steps :
+You can install from PyPi by following those steps:
 
 1. Install pygeodes
 

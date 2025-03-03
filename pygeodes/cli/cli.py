@@ -120,7 +120,7 @@ def search(args):
                 query=query_dict,
                 bbox=args.bbox,
                 get_all=get_all,
-                collections=args.collections.strip().split(","),
+                collections=args.collections.strip().split(",") if args.collections is not None else None,
             )
 
         dataframe = format_items(dataframe, {"identifier"})
