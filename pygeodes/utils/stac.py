@@ -59,7 +59,7 @@ class Collection(StacCollection):
         return super().from_dict(correct_stac_version(dico))
 
     def to_dict(self):
-        return super().to_dict(transform_hrefs=False)
+        return super().to_dict(transform_hrefs=False) # TODO
 
     def find(self, key: str):
         from pygeodes.utils.formatting import get_from_dico_path
@@ -111,6 +111,10 @@ class Item(StacItem):
 
         geodes = Geodes.get_last_instance()
         geodes.download_item_archive(item=self, outfile=outfile)
+        
+    @classmethod
+    def from_dict(cls, dico: dict):
+        return super().from_dict(correct_stac_version(dico))
 
     def __str__(self):
         return self.__repr__()

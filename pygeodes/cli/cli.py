@@ -47,7 +47,7 @@ def download(args):
     else:
         geodes = Geodes(conf=args.conf)
     items = geodes.search_items(
-        query={"accessService:endpointURL": {"contains": args.id}},
+        query={"identifier": {"eq": args.id}},
         quiet=True,
         return_df=False,
         get_all=False,
@@ -100,7 +100,7 @@ def search(args):
                 query_dict["id"] = {"eq" : args.id}"""
             if args.data_type:
                 query_dict["dataType"] = {"eq": args.data_type}
-            date_arg = "temporal:endDate"  # we arbitrarily chose to consider endDate as the date, as startDate and endDate are usually really close
+            date_arg = "end_datetime"  # we arbitrarily chose to consider endDate as the date, as startDate and endDate are usually really close -> TODO
             if args.start_date or args.end_date:
                 query_dict[date_arg] = {}
             if args.start_date:

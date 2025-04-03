@@ -53,7 +53,7 @@ def download_item(client, item: Item, outfile: str):
         )
         return name_for_same_file
 
-    url = item.find("accessService:endpointURL")
+    url = item.find("endpoint_url") # TODO: check
     bucket, key = get_bucket_and_key_from_url(url)
     logger.debug(f"using {bucket=} and {key=}")
     client.download_file(Bucket=bucket, Key=key, Filename=outfile)

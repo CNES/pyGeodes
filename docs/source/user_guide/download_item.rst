@@ -84,9 +84,3 @@ Downloading from S3
 
 If you provided your S3 credentials in your conf, you can use `boto3 <https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#configuration>`__ to download items directly from the datalake.
 Provided your conf contains your S3 credentials (see :doc:`configuration`), any use of ``geodes.download_item_archive`` or ``item.download_archive`` will use the S3 client instead of geodes.
-If you wish to use the s3 client for other purpose (exploring buckets for example), you can use the S3 client this way : 
-
-.. code-block:: python
-
-    for bucket in geodes.s3_client.buckets.all(): # s3_client is already configured with your credentials
-        print(bucket.name)
