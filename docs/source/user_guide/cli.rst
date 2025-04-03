@@ -53,7 +53,7 @@ This will give you an **overview** of the results (as it's not very convenient t
 Searching collections
 ---------------------
 
-You can also search for collections by adding the parameter :option:`-c, --collections`. It allow only one argument, with is a search term that will be searched in the description and the title of the collections.
+You can also search for collections by adding the parameter :option:`-cs, --collections_search`. It allow only one argument, with is a search term that will be searched in the description and the title of the collections.
 For example, to search a collection which is related to the term *grd*, you can do : 
 
 .. code-block:: bash

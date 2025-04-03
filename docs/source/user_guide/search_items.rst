@@ -10,7 +10,7 @@ Then you can start making some queries, let's start by retrieving all items whos
 
 .. code-block:: python
     
-    query = {"spaceborne:absoluteOrbitID" : {"eq" : 30972}}
+    query = {"sat:absolute_orbit" : {"eq" : 30972}}
     items,dataframe = geodes.search_items(query=query)
 
 .. seealso::

@@ -16,7 +16,7 @@ But you can also provide a query in JSON format :
 
 .. code-block:: python
     
-    query = {'id' : {'contains' : 'PEPS'}}
+    query = {'title' : {'contains' : 'PEPS'}}
     collections,dataframe = geodes.search_collections(query=query)
 
 .. seealso::
@@ -37,12 +37,6 @@ If you wish to get only the collections, you can use the parameter ``return_df=F
 .. code-block:: python
     
     collections = geodes.search_collections(query=query,return_df=False)
-
-By default, it returns all the objects corresponding to your query, so it can be long (making many API calls) if your query is not really precise. You could just want a little overview of the objects, you can set the parameter ``get_all=False``, to get just the first items returned (by making just one API call).
-
-.. code-block:: python
-    
-    collections = geodes.search_collections(query=query,return_df=False,get_all=False)
 
 .. seealso::
     

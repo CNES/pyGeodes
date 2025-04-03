@@ -18,14 +18,14 @@ From STAC objects to dataframes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To create you first dataframe from STAC objects, you can use :py:func:`pygeodes.utils.formatting.format_collections` and :py:func:`pygeodes.utils.formatting.format_items`.
-For example from a list of :py:class:`pygeodes.utils.stac.Item`, if I want to create a dataframe and add the column ``spaceborne:cloudCover`` : 
+For example from a list of :py:class:`pygeodes.utils.stac.Item`, if I want to create a dataframe and add the column ``eo:cloud_cover`` : 
 
 .. code-block:: python
 
     from pygeodes.utils.formatting import format_items
     items = [item1,item2,...]
     
-    dataframe = format_items(items,columns_to_add={"spaceborne:cloudCover"})
+    dataframe = format_items(items,columns_to_add={"eo:cloud_cover"})
 
 But if I put a dataframe instead of a list of items in ``format_items``, the columns will be added to the ones already in the dataframe.
 
@@ -40,8 +40,8 @@ After having added the columns you want, you can filter your data using the data
 
 .. code-block:: python
     
-    dataframe = format_items(items,columns_to_add={"spaceborne:cloudCover"})
-    filtered = dataframe[dataframe["spaceborne:cloudCover"] <= 10]
+    dataframe = format_items(items,columns_to_add={"eo:cloud_cover"})
+    filtered = dataframe[dataframe["eo:cloud_cover"] <= 10]
 
 .. seealso::
 
@@ -59,26 +59,6 @@ Once we filtered our dataframe of items, we could want to download them, so we n
     items = filtered['item'].values # with 'filtered' being any items dataframe
     for item in items:
         item.download_archive()
-
-.. _serialization_of_dataframes:
-Serialization of dataframes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-You could want to serialize a dataframe to work with it later, it's possible using :py:func:`pygeodes.utils.formatting.export_dataframe`
-
-.. code-block:: python
-    
-    from pygeodes.utils.formatting import export_dataframe
-
-    export_dataframe(dataframe,"df.json")
-
-and you can load it later using :py:func:`pygeodes.utils.formatting.load_dataframe` : 
-
-.. code-block:: python
-    
-    from pygeodes.utils.formatting import export_dataframe
-
-    dataframe = load_dataframe("df.json")
 
 Plotting and exploring data using dataframes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

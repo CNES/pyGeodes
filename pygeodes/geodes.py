@@ -326,7 +326,7 @@ class Geodes:
         if self.s3_client is not None:
 
             download_for_profile = Download(
-                url=item.find("accessService:endpointURL"), destination=outfile
+                url=item.find("endpoint_url"), destination=outfile
             )
             download_for_profile.start()
             load_profile_and_save_download(download_for_profile)
