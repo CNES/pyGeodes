@@ -17,6 +17,7 @@ from typing import Literal
 
 from pygeodes.utils.consts import (
     CONFIG_DEFAULT_FILENAME,
+    MAX_NB_ITEMS,
     DEFAULT_LOGGING_LEVEL,
     DEFAULT_S3_REGION_NAME,
 )
@@ -50,6 +51,7 @@ class Config:
     download_dir: str = "."
     checksum_error: bool = True
     use_async_requests: bool = True
+    nb_max_items: int = MAX_NB_ITEMS
     aws_access_key_id: str = None
     aws_secret_access_key: str = None
     aws_session_token: str = None  # ajouter profil à la place
@@ -169,6 +171,7 @@ class Config:
         content = load_json(file)
         cls._check_config_file(content, file)
         logger.debug(f"Loaded conf from file {file}")
+        print(content)
         return class_from_args(Config, content)
 
     @classmethod

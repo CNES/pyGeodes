@@ -186,7 +186,7 @@ class Geodes:
             if not quiet:
                 print(f"Found {matched} items matching your query")
 
-            if matched > MAX_NB_ITEMS:
+            if matched > self.conf.nb_max_items:
                 raise TooManyResultsException(
                     f"Your query matched with {matched} items, which is too much. Please refine your query to be more precise"
                 )

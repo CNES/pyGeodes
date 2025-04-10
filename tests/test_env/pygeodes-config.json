@@ -3,6 +3,7 @@
     "logging_level": "INFO",
     "download_dir": "./pygeodes/tests/test_env",
     "checksum_error": true,
+    "nb_max_items": 2000000,
     "use_async_requests": true,
     "aws_access_key_id": null,
     "aws_secret_access_key": null,
