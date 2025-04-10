@@ -171,7 +171,6 @@ class Config:
         content = load_json(file)
         cls._check_config_file(content, file)
         logger.debug(f"Loaded conf from file {file}")
-        print(content)
         return class_from_args(Config, content)
 
     @classmethod
