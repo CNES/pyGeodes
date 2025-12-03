@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pygeodes"
-version = "0.1.4"
+version = "0.1.5"
 description = "A Python client for Geodes APIs"
 authors = ["CNES"]
 readme = "README.md"
