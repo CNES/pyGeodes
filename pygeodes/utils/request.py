@@ -27,6 +27,12 @@ import remotezip
 import requests
 import validators
 from requests.adapters import HTTPAdapter, Retry
+from requests.exceptions import ReadTimeout
+from requests.exceptions import ConnectionError
+from requests.exceptions import Timeout
+from requests.exceptions import HTTPError
+from requests.exceptions import RequestException
+from datetime import datetime
 from tqdm import tqdm
 from tqdm.asyncio import tqdm as tqdm_async
 
@@ -261,14 +267,46 @@ class SyncRequestMaker(RequestMaker):
 
         for attempt in range(MAX_NB_RETRIES):
             begin = perf_counter()
-            response = self.session.post(
-                url,
-                headers=full_headers,
-                stream=True,
-                timeout=REQUESTS_TIMEOUT,
-                data=json.dumps(data),
-                verify=self.verify,
-            )
+            try:
+                response = self.session.post(
+                    url,
+                    headers=full_headers,
+                    stream=True,
+                    timeout=REQUESTS_TIMEOUT,
+                    data=json.dumps(data),
+                    verify=self.verify,
+                )
+            except ReadTimeout:
+                if attempt == MAX_NB_RETRIES - 1:
+                    raise Exception("Request timed out after multiple retries")
+                logger.debug(f"{datetime.now()} : ReadTimeout occurred, retrying...")
+                time.sleep(TIME_BEFORE_RETRY)
+                continue
+            except ConnectionError:
+                if attempt == MAX_NB_RETRIES - 1:
+                    raise Exception("Connection error: Could not connect to the server after multiple retries")
+                logger.debug(f"{datetime.now()} : Connection error, retrying...")
+                time.sleep(TIME_BEFORE_RETRY)
+                continue
+            except Timeout:
+                if attempt == MAX_NB_RETRIES - 1:
+                    raise Exception("Request timeout occurred after multiple retries")
+                logger.debug(f"{datetime.now()} : Timeout occurred, retrying...")
+                time.sleep(TIME_BEFORE_RETRY)
+                continue
+            except RequestException as e:
+                if attempt == MAX_NB_RETRIES - 1:
+                    raise Exception(f"Request failed: {str(e)} after multiple retries")
+                logger.debug("Request exception occurred, retrying...")
+                time.sleep(TIME_BEFORE_RETRY)
+                continue
+            except Exception as e:
+                if attempt == MAX_NB_RETRIES - 1:
+                    raise Exception(f"Unexpected error: {str(e)} after multiple retries")
+                logger.debug("Unexpected error occurred, retrying...")
+                time.sleep(TIME_BEFORE_RETRY)
+                continue
+
             end = perf_counter()
             logger.debug(f"request made in {end-begin} seconds")
 
