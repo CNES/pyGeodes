@@ -7,6 +7,8 @@ This page aims to provide some specific examples to help you work around with th
    :maxdepth: 2
 
    search-and-download
-   s3_example
+   search-roi
+   s3_download
+   s3_subset
    dataframes-example
 
