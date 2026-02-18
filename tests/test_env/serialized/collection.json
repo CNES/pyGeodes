@@ -5,20 +5,8 @@
     "description": "Sentinel-1 Level-1 products are the baseline products for the majority of users from which higher levels are derived. From data in each acquisition mode, the Instrument Processing Facility (IPF)  generates focused Level-1 Single Look Complex (SLC) products and Level-1 Ground Range Detected (GRD) products.  SAR parameters that vary with the satellite position in orbit, such as azimuth FM rate, Doppler centroid frequency and terrain height, are periodically updated to ensure the homogeneity of the scene when processing a complete data take. Similarly, products generated from WV data can contain any number of vignettes, potentially up to an entire orbit's worth. All Level-1 products are geo-referenced and time tagged with zero Doppler time at the centre of the swath. Geo-referencing is corrected for the azimuth bi-static bias by taking into account the pulse travel time delta between the centre of the swath and the range of each geo-referenced point. A Level-1 product can be one of the following two types: Single Look Complex (SLC) products or Ground Range Detected (GRD) products Level-1 Ground Range Detected (GRD) products consist of focused SAR data that has been detected, multi-looked and projected to ground range using an Earth ellipsoid model. The ellipsoid projection of the GRD products is corrected using the terrain height specified in the product general annotation. The terrain height used varies in azimuth but is constant in range. Level-1 Single Look Complex (SLC) products consist of focused SAR data, geo-referenced using orbit and attitude data from the satellite, and provided in slant-range geometry. Slant range is the natural radar range observation coordinate, defined as the line-of-sight from the radar to each reflecting object. The products are in zero-Doppler orientation where each row of pixels represents points along a line perpendicular to the sub-satellite track.",
     "links": [
         {
-            "rel": "root",
-            "href": "https://gdh-portal-prod.cnes.fr/api/v1/rs-catalog/stac/search/paginate?itemBody=bnVsbA%2525253D%2525253D&itemBody=bnVsbA==&page=0&page=0&token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqSDNBYzdTTFJDODNjMVpMOXhRbHoxQXVybHlRVzNpTV9pTWdaSFZYQU5rIn0.eyJleHAiOjE3MjA0Mjc1MDcsImlhdCI6MTcyMDQyNzIwNywianRpIjoiZWNhNTE1MmMtMGEzZS00ODY4LWFhZTUtNmJkNmZkOTM2N2M4IiwiaXNzIjoiaHR0cHM6Ly9nZGgtcG9ydGFsLXByb2QuY25lcy5mci9hdXRoL3JlYWxtcy9nZGgiLCJhdWQiOiJnZGgtYXBpIiwic3ViIjoiOGY2MWE3ZjEtYTkwNS00OTY1LTkzMDMtMDFmMmQ4MjI3YzIxIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZ2RoLWFwaSIsInNlc3Npb25fc3RhdGUiOiI3NTEzNGViNi1iZWM0LTQ4ZDctYmIwNy02NWFlNmEzOTAyOTUiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbXSwic2NvcGUiOiJwcm9maWxlIG1pY3JvcHJvZmlsZS1qd3QgcmVnYXJkc19zY29wZSBlbWFpbCIsInNpZCI6Ijc1MTM0ZWI2LWJlYzQtNDhkNy1iYjA3LTY1YWU2YTM5MDI5NSIsInVwbiI6Imx1Y2FzLmNoYXJsZXNAY25lcy5mciIsInJvbGUiOiJSRUdJU1RFUkVEX1VTRVIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWNjZXNzR3JvdXBzIjpbInVzZXJzIl0sIm5hbWUiOiJMdWNhcyBDSEFSTEVTIiwiZ3JvdXBzIjpbIlJFR0lTVEVSRURfVVNFUiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJsdWNhcy5jaGFybGVzQGNuZXMuZnIiLCJnaXZlbl9uYW1lIjoiTHVjYXMiLCJmYW1pbHlfbmFtZSI6IkNIQVJMRVMiLCJlbWFpbCI6Imx1Y2FzLmNoYXJsZXNAY25lcy5mciIsInRlbmFudCI6ImdkaCJ9.maNlWrpHwYxnNPpQ4SMkD2TdgdixGJFJrp7wi3GgLSJfRzOUoJQ8Qui9ifBts2_-tyH7F3RX9bmLm-l21W88IXj6H7bG9KkJypTCPdWJUUFrT_5c4TgbtztDhhoZpiI-d2F9GnMWX1DY-JfuJgXGUAzMw9MfmeXqvtkYS2BmlCVMg52CNOzI0wXw1tnKBa0d-JGC23OvG-RMfJcC11GkYuGlk3TXs52T2QJOoegxQ0AmlEpj7DJt_v23ftOj84un7cnO_oDHMjnW0Kyz2_7pogMgYmuxqmHEHyIYpUFFcM0LaBgk4B_m0SlVoG_u84npxKbEzotP_ogy0PRL72ug0w",
-            "type": "application/json",
-            "title": "PEPS Sentinel-1 Level1"
-        },
-        {
             "rel": "self",
-            "href": "https://gdh-portal-prod.cnes.fr/api/v1/rs-catalog/stac/search/paginate?itemBody=bnVsbA%2525253D%2525253D&itemBody=bnVsbA==&page=0&page=0&token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqSDNBYzdTTFJDODNjMVpMOXhRbHoxQXVybHlRVzNpTV9pTWdaSFZYQU5rIn0.eyJleHAiOjE3MjA0Mjc1MDcsImlhdCI6MTcyMDQyNzIwNywianRpIjoiZWNhNTE1MmMtMGEzZS00ODY4LWFhZTUtNmJkNmZkOTM2N2M4IiwiaXNzIjoiaHR0cHM6Ly9nZGgtcG9ydGFsLXByb2QuY25lcy5mci9hdXRoL3JlYWxtcy9nZGgiLCJhdWQiOiJnZGgtYXBpIiwic3ViIjoiOGY2MWE3ZjEtYTkwNS00OTY1LTkzMDMtMDFmMmQ4MjI3YzIxIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZ2RoLWFwaSIsInNlc3Npb25fc3RhdGUiOiI3NTEzNGViNi1iZWM0LTQ4ZDctYmIwNy02NWFlNmEzOTAyOTUiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbXSwic2NvcGUiOiJwcm9maWxlIG1pY3JvcHJvZmlsZS1qd3QgcmVnYXJkc19zY29wZSBlbWFpbCIsInNpZCI6Ijc1MTM0ZWI2LWJlYzQtNDhkNy1iYjA3LTY1YWU2YTM5MDI5NSIsInVwbiI6Imx1Y2FzLmNoYXJsZXNAY25lcy5mciIsInJvbGUiOiJSRUdJU1RFUkVEX1VTRVIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWNjZXNzR3JvdXBzIjpbInVzZXJzIl0sIm5hbWUiOiJMdWNhcyBDSEFSTEVTIiwiZ3JvdXBzIjpbIlJFR0lTVEVSRURfVVNFUiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJsdWNhcy5jaGFybGVzQGNuZXMuZnIiLCJnaXZlbl9uYW1lIjoiTHVjYXMiLCJmYW1pbHlfbmFtZSI6IkNIQVJMRVMiLCJlbWFpbCI6Imx1Y2FzLmNoYXJsZXNAY25lcy5mciIsInRlbmFudCI6ImdkaCJ9.maNlWrpHwYxnNPpQ4SMkD2TdgdixGJFJrp7wi3GgLSJfRzOUoJQ8Qui9ifBts2_-tyH7F3RX9bmLm-l21W88IXj6H7bG9KkJypTCPdWJUUFrT_5c4TgbtztDhhoZpiI-d2F9GnMWX1DY-JfuJgXGUAzMw9MfmeXqvtkYS2BmlCVMg52CNOzI0wXw1tnKBa0d-JGC23OvG-RMfJcC11GkYuGlk3TXs52T2QJOoegxQ0AmlEpj7DJt_v23ftOj84un7cnO_oDHMjnW0Kyz2_7pogMgYmuxqmHEHyIYpUFFcM0LaBgk4B_m0SlVoG_u84npxKbEzotP_ogy0PRL72ug0w",
-            "type": "application/json",
-            "title": "this search page"
-        },
-        {
-            "rel": "self",
-            "href": "https://geodes-portal.cnes.fr/api/v1/rs-catalog/stac/collections/search?scope=gdh",
+            "href": "https://geodes-portal.cnes.fr/api/stac/collections/PEPS_S1_L1",
             "type": "application/json",
             "title": "Link to this collection"
         },
@@ -51,14 +39,17 @@
             "href": "https://ceos.org/document_management/Working_Groups/WGISS/Documents/WGISS%20Best%20Practices/CEOS%20OpenSearch%20Best%20Practice.pdf",
             "type": "application/html",
             "title": "Products documentation"
+        },
+        {
+            "rel": "root",
+            "href": "https://geodes-portal.cnes.fr/api/stac",
+            "type": "application/json"
         }
     ],
     "stac_extensions": [
-        "distribution",
-        "thematiques",
-        "contactPoint",
-        "dcs",
-        "version"
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sar/v1.1.0/schema.json"
     ],
     "context": {},
     "title": "PEPS Sentinel-1 Level1",
@@ -76,8 +67,8 @@
         "temporal": {
             "interval": [
                 [
-                    null,
-                    null
+                    "2014-06-15T03:44:44.792000Z",
+                    "2026-02-12T21:19:24.069000Z"
                 ]
             ]
         }
@@ -106,27 +97,7 @@
         }
     ],
     "summaries": {
-        "dcs:sensor": [
-            "SAR-C"
-        ],
-        "thematiques:variables": [
-            {
-                "uri": "https://w3id.org/gdh/backscatter",
-                "unit": "",
-                "long_name": "Backscattering measurement",
-                "categories": [
-                    "https://w3id.org/gdh/landSurface"
-                ],
-                "short_name": "bs"
-            }
-        ],
-        "dcs:processingLevel": [
-            "level1"
-        ],
-        "dcs:satellite": [
-            "sentinel-1"
-        ],
-        "thematiques:theme": [
+        "theme": [
             "landSurface",
             "surface roughness",
             "earth science",
@@ -138,19 +109,42 @@
             "solid earth",
             "terrestrial hydrosphere"
         ],
-        "dataType": "PEPS_S1_L1",
-        "total_items": 405676,
-        "versionInfo": "1",
+        "instruments": [
+            "SAR-C"
+        ],
+        "constellation": [
+            "sentinel-1"
+        ],
+        "production_frequency": [
+            "daily"
+        ],
+        "variables": [
+            {
+                "uri": "https://w3id.org/gdh/backscatter",
+                "unit": "",
+                "long_name": "Backscattering measurement",
+                "categories": [
+                    "https://w3id.org/gdh/landSurface"
+                ],
+                "short_name": "bs"
+            }
+        ],
+        "processing:level": [
+            "level1"
+        ],
+        "total_items": 6428953,
+        "item_type": "tile",
+        "geometry_type": "raster",
         "latest": true,
-        "contactPoint:hasEmail": "expgdh@cnes.fr",
-        "distribution:format": "zip",
-        "contactPoint:fn": "GeoDataHub Helpdesk",
-        "dcs:itemType": "tile",
-        "distribution:accessURL": "https://geodes-portal.cnes.fr/api/v1/rs-catalog/stac/download/collections/PEPS_S1_L1/sample/zip",
-        "dcs:temporalResolutionInHours": "144",
-        "dcs:spatialResolutionInMeters": "5",
-        "dcs:platform": "satellite",
-        "dcs:dataGeometryType": "raster"
+        "temporal_resolution": "144",
+        "contact_name": "GeoDataHub Helpdesk",
+        "platform": "satellite",
+        "access_url": "https://geodes-portal.cnes.fr/api/v1/rs-catalog/stac/download/collections/PEPS_S1_L1/sample/zip",
+        "format": "zip",
+        "dataset": "PEPS_S1_L1",
+        "version": "1",
+        "gsd": "5",
+        "contact_email": "expgdh@cnes.fr"
     },
     "assets": {
         "bs": {

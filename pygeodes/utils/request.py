@@ -66,6 +66,7 @@ from pygeodes.utils.profile import (
 def make_params(
     page: int,
     query: dict,
+    sortBy: List = None,
     bbox: List[float] = None,
     intersects: dict = None,
     collections: List[str] = None,
@@ -74,6 +75,7 @@ def make_params(
         "page": page,
         "query": query,
         "limit": MAX_PAGE_SIZE,
+        "sortBy" : sortBy,
         "bbox": bbox,
         "intersects": intersects,
         "collections": collections,

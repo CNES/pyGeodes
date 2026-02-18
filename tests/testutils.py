@@ -134,23 +134,23 @@ def random_dict():
     return dico
 
 
-EXAMPLE_COLLECTION_QUERY = {"dataType": {"eq": "PEPS_S1_L1"}}
-orbit_down = 50_000
-orbit_up = 50_050
+EXAMPLE_COLLECTION_QUERY = {"dataset": {"eq": "PEPS_S1_L1"}}
+orbit_down = 118
+orbit_up = 120
 EXAMPLE_ITEM_QUERY = {
-    "dataType": {"eq": "PEPS_S1_L1"},
-    "spaceborne:absoluteOrbitID": {"gte": orbit_down, "lte": orbit_up},
+    "dataset": {"eq": "PEPS_S1_L1"},
+    "sat:relative_orbit": {"gte": orbit_down, "lte": orbit_up}
 }
-
+EXAMPLE_SORTBY = [{"direction":"desc","field":"start_datetime"}]
 
 def check_collection(collection):
     return collection.id == "PEPS_S1_L1"
 
 
 def check_item(item):
-    orbit = item.find("spaceborne:absoluteOrbitID")
+    orbit = item.find("sat:relative_orbit")
     return (
-        item.find("dataType") == "PEPS_S1_L1"
+        item.find("dataset") == "PEPS_S1_L1"
         and orbit >= orbit_down
         and orbit <= orbit_up
     )

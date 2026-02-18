@@ -68,19 +68,19 @@ KNOWN_COLLECTION_REQUESTABLE_ARGUMENTS = {
     "total_items",
 }
 KNOWN_ITEM_REQUESTABLE_ARGUMENTS = {
-    "dataType",
-    "accessService:endpointURL",
-    "temporal:startDate",
-    "temporal:endDate",
-    "spaceborne:orbitID",
-    "spaceborne:absoluteOrbitID",
-    "spaceborne:orbitDirection",
-    "spaceborne:cloudCover",
-    "spaceborne:tile",
-    "spaceborne:continentsID",
-    "spaceborne:satellitePlatform",
+    "dataset",
+    "endpoint_url",
+    "start_datetime",
+    "end_datetime",
+    "sat:relative_orbit",
+    "sat:absolute_orbit",
+    "sat:orbit_state",
+    "eo:cloud_cover",
+    "grid:code",
+    "continent_code",
+    "platform",
     "datetime",
-    "spaceborne:sensorMode",
+    "sar:instrument_mode",
 }
 
 # datetime

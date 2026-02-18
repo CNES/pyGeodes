@@ -364,7 +364,7 @@ class DownloadQueue:
 
         if self.geodes_instance.s3_client is not None:
 
-            download_for_profile.url = item.find("accessService:endpointURL")
+            download_for_profile.url = item.find("endpoint_url")
             download_for_profile.start()
             load_profile_and_save_download(download_for_profile)
 

@@ -103,8 +103,8 @@ def format_collections(
         collections = df["collection"].values
 
     for column_to_keep in columns_to_keep:
-        if column_to_keep == "dataType":
-            column_to_keep = "id"  # because dataType is equivalent to id but dataType doesn't exist in json
+        if column_to_keep == "dataset":
+            column_to_keep = "id"  # because dataset is equivalent to id but dataset doesn't exist in json
 
         values = [col.find(column_to_keep) for col in collections]
         if all([value is None for value in values]):

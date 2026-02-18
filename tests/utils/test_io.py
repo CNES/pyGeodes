@@ -22,14 +22,14 @@ def write_empty_file(path: str):
 class TestIO(PyGeodesTestCase):
     def tearDown(self):
         for filepath in TEST_ENV_DIR.joinpath(
-            "test_folder"
+            "folder"
         ).iterdir():  # for cleanup
             os.remove(filepath)
         super().tearDown()
 
     def test_file_exists(self):
         filename = "file.txt"
-        filepath = TEST_ENV_DIR.joinpath("test_folder").joinpath(filename)
+        filepath = TEST_ENV_DIR.joinpath("folder").joinpath(filename)
 
         write_empty_file(filepath)
 
@@ -44,7 +44,7 @@ class TestIO(PyGeodesTestCase):
 
     def test_find_unused_filename(self):
         filepath = str(
-            TEST_ENV_DIR.joinpath("test_folder").joinpath("filename.txt")
+            TEST_ENV_DIR.joinpath("folder").joinpath("filename.txt")
         )
 
         NB_FILES = 30
@@ -59,7 +59,7 @@ class TestIO(PyGeodesTestCase):
 
         for index in range(1, NB_FILES):
             new_filepath = str(
-                TEST_ENV_DIR.joinpath("test_folder").joinpath(
+                TEST_ENV_DIR.joinpath("folder").joinpath(
                     f"filename-{index}.txt"
                 )
             )
@@ -68,7 +68,7 @@ class TestIO(PyGeodesTestCase):
             to_delete.append(new_filepath)
 
     def test_filename_in_folder(self):
-        folder = TEST_ENV_DIR.joinpath("test_folder")
+        folder = TEST_ENV_DIR.joinpath("folder")
         name = "file.txt"
         filepath = folder.joinpath(name)
         write_empty_file(filepath)
@@ -82,7 +82,7 @@ class TestIO(PyGeodesTestCase):
     def test_json_io(self):
         dico = random_dict()
         filepath = str(
-            TEST_ENV_DIR.joinpath("test_folder").joinpath("file.json")
+            TEST_ENV_DIR.joinpath("folder").joinpath("file.json")
         )
         write_json(dico, filepath)
         self.assertTrue(file_exists(filepath))

@@ -9,6 +9,7 @@ from tests import TEST_ENV_DOWNLOAD_DIR
 from tests.test_case import PyGeodesTestCase
 from tests.testutils import (
     EXAMPLE_ITEM_QUERY,
+    EXAMPLE_SORTBY,
     empty_test_env_download_dir,
     random_date,
 )
@@ -95,8 +96,9 @@ class TestProfile(PyGeodesTestCase):
                 download_dir=str(TEST_ENV_DOWNLOAD_DIR),
             )
         )
+
         items = geodes.search_items(
-            get_all=False, query=EXAMPLE_ITEM_QUERY, return_df=False
+            get_all=False, query=EXAMPLE_ITEM_QUERY, sortBy=EXAMPLE_SORTBY, return_df=False
         )
         filesizes = [(item, item.data_asset.filesize) for item in items]
         items = [

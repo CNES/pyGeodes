@@ -99,7 +99,7 @@ def search(args):
             """if args.id:
                 query_dict["id"] = {"eq" : args.id}"""
             if args.data_type:
-                query_dict["dataType"] = {"eq": args.data_type}
+                query_dict["dataset"] = {"eq": args.data_type}
             date_arg = "end_datetime"  # we arbitrarily chose to consider endDate as the date, as startDate and endDate are usually really close -> TODO
             if args.start_date or args.end_date:
                 query_dict[date_arg] = {}

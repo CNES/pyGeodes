@@ -37,9 +37,9 @@ def check_presence_of_serialized_objects():
 
 
 def serialize_an_example_collection(g: Geodes):
-    query = {"dataType": {"eq": "PEPS_S1_L1"}}
+    query = {"dataset": {"eq": "PEPS_S1_L1"}}
     print(f"serializing an example collection using query {query}")
-    collections = g.search_collections(query=query, raw=True, get_all=False)
+    collections = g.search_collections(query=query, return_df=False)
 
     if len(collections) > 0:
         collection = collections[0]
@@ -51,9 +51,9 @@ def serialize_an_example_collection(g: Geodes):
 
 
 def serialize_an_example_item(g: Geodes):
-    query = {"dataType": {"eq": "PEPS_S1_L1"}}
+    query = {"dataset": {"eq": "PEPS_S1_L1"}}
     print(f"serializing an example item using query {query}")
-    items = g.search_items(query=query, raw=True, get_all=False)
+    items = g.search_items(query=query, get_all=False, return_df=False)
 
     if len(items) > 0:
         item = items[0]
