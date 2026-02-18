@@ -20,7 +20,7 @@ from pygeodes.utils.request import (
 from pygeodes.utils.stac import Collection, Item
 from tests import TEST_ENV_DOWNLOAD_DIR
 from tests.test_case import PyGeodesTestCase
-from tests.testutils import EXAMPLE_ITEM_QUERY, empty_test_env_download_dir
+from tests.testutils import EXAMPLE_ITEM_QUERY, EXAMPLE_SORTBY, empty_test_env_download_dir
 
 
 class TestRequest(PyGeodesTestCase):
@@ -34,7 +34,7 @@ class TestRequest(PyGeodesTestCase):
     def test_post_sync(self):
         response = self.sync_rqm.post(
             endpoint=GEODES_SEARCH_COLLECTIONS_ENDPOINT,
-            data=make_params(page=1, query={"dataType": {"contains": "PEPS"}}),
+            data=make_params(page=1, query={"dataset": {"contains": "PEPS"}}),
         )
         self.assertTrue(response.ok)
         self.assertTrue("collections" in response.json().keys())
@@ -53,8 +53,9 @@ class TestRequest(PyGeodesTestCase):
                 download_dir=str(TEST_ENV_DOWNLOAD_DIR),
             )
         )
+
         items = geodes.search_items(
-            get_all=False, query=EXAMPLE_ITEM_QUERY, return_df=False
+            get_all=False, query=EXAMPLE_ITEM_QUERY, sortBy=EXAMPLE_SORTBY, return_df=False
         )
 
         filesizes = [(item, item.data_asset.filesize) for item in items]
@@ -159,7 +160,7 @@ class TestRequest(PyGeodesTestCase):
 
     def test_comparison_post_items(self):
         NB_REQUESTS = 10
-        params = make_params(page=1, query={"dataType": {"contains": "PEPS"}})
+        params = make_params(page=1, query={"dataset": {"contains": "PEPS"}})
 
         # sync
         sync_responses = []

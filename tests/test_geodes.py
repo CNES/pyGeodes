@@ -39,6 +39,7 @@ from tests.test_case import PyGeodesTestCase
 from tests.testutils import (
     EXAMPLE_COLLECTION_QUERY,
     EXAMPLE_ITEM_QUERY,
+    EXAMPLE_SORTBY,
     check_collection,
     check_item,
     empty_test_env_download_dir,
@@ -50,6 +51,7 @@ class TestGeodes(PyGeodesTestCase):
         super().setUp()
         self.collection_query = EXAMPLE_COLLECTION_QUERY
         self.item_query = EXAMPLE_ITEM_QUERY
+        self.sortBy = EXAMPLE_SORTBY
         self.download_dir = TEST_ENV_DOWNLOAD_DIR
         self.valid_conf = Config(
             api_key=self.valid_api_key,
@@ -102,7 +104,7 @@ class TestGeodes(PyGeodesTestCase):
 
         self.assertEqual(type(dataframe), pd.GeoDataFrame)
         for key in self.collection_query.keys():
-            if key == "dataType":
+            if key == "dataset":
                 key = "id"
             self.assertTrue(key in dataframe.columns)
 
@@ -130,7 +132,7 @@ class TestGeodes(PyGeodesTestCase):
         async_begin = perf_counter()
 
         async_items = geodes.search_items(
-            get_all=True, query=self.item_query, return_df=False
+            get_all=True, query=self.item_query, sortBy=self.sortBy, return_df=False
         )  # by default, get_all will use async requests
 
         async_end = perf_counter()
@@ -146,7 +148,7 @@ class TestGeodes(PyGeodesTestCase):
         sync_begin = perf_counter()
 
         sync_items = geodes.search_items(
-            get_all=True, query=self.item_query, return_df=False
+            get_all=True, query=self.item_query, sortBy=self.sortBy, return_df=False
         )  # as we changed the parameter in conf, it will use sync requests
 
         sync_end = perf_counter()
@@ -172,7 +174,7 @@ class TestGeodes(PyGeodesTestCase):
 
     def test_download_item_archive(self):
         items = self.valid_geodes.search_items(
-            get_all=False, query=self.item_query, return_df=False
+            get_all=False, query=self.item_query, sortBy=self.sortBy, return_df=False
         )  # hoping this request returns at least one product
 
         filesizes = [(item, item.data_asset.filesize) for item in items]
@@ -181,7 +183,7 @@ class TestGeodes(PyGeodesTestCase):
         smallest_item = filesizes_sorted[0][0]
         second_smallest_item = filesizes_sorted[1][0]
 
-        g = Geodes(conf=Config(api_key=None))
+        g = Geodes(conf=Config(api_key=None, checksum_error=False))
 
         with self.assertRaises(RequiresApiKeyException):
             g.download_item_archive(smallest_item)
@@ -225,7 +227,7 @@ class TestGeodes(PyGeodesTestCase):
 
     def test_list_item_files_and_download_file(self):
         items = self.valid_geodes.search_items(
-            get_all=False, query=self.item_query, return_df=False
+            get_all=False, query=self.item_query, sortBy=self.sortBy, return_df=False
         )
 
         item = items[0]

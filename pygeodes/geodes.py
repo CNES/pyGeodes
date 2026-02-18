@@ -157,6 +157,7 @@ class Geodes:
         intersects: dict = None,
         get_all: bool = False,
         page: int = 1,
+        sortBy : List = None,
         return_df: bool = True,
         quiet: bool = False,
         collections: list[str] = None,
@@ -175,6 +176,7 @@ class Geodes:
             params = make_params(
                 query=query,
                 page=1,
+                sortBy=sortBy,
                 bbox=bbox,
                 intersects=intersects,
                 collections=collections,
@@ -205,6 +207,7 @@ class Geodes:
             datas = [
                 make_params(
                     page=_page,
+                    sortBy=sortBy,
                     query=query,
                     bbox=bbox,
                     intersects=intersects,
@@ -269,6 +272,7 @@ class Geodes:
             params = make_params(
                 query=query,
                 page=page,
+                sortBy=sortBy,
                 bbox=bbox,
                 intersects=intersects,
                 collections=collections,

@@ -82,7 +82,7 @@ class TestFormatting(PyGeodesTestCase):
 
     def test_format_items_with_custom_columns(self):
         # real_columns
-        columns_to_add = {"temporal:startDate", "spaceborne:swath"}
+        columns_to_add = {"start_datetime", "swath"}
         formatted = format_items(
             items=self.list_of_items, columns_to_add=columns_to_add
         )
@@ -112,7 +112,7 @@ class TestFormatting(PyGeodesTestCase):
         self.assertEqual(set(formatted["item"].values), set(self.list_of_items))
 
     def test_format_items(self):
-        query = {"dataType": {"eq": "PEPS_S1_L1"}}
+        query = {"dataset": {"eq": "PEPS_S1_L1"}}
         formatted = format_items(
             items=self.list_of_items, columns_to_add=set(query.keys())
         )
@@ -126,15 +126,15 @@ class TestFormatting(PyGeodesTestCase):
 
     def test_format_items_by_adding_columns(self):
         formatted = format_items(
-            self.list_of_items, columns_to_add={"dataType"}
+            self.list_of_items, columns_to_add={"dataset"}
         )
 
         formatted_2 = format_items(
-            formatted, columns_to_add={"spaceborne:cloudCover"}
+            formatted, columns_to_add={"eo:cloud_cover"}
         )
         self.assertTrue(type(formatted_2) is type(formatted))
 
-        for column in ["dataType", "spaceborne:cloudCover", "item"]:
+        for column in ["dataset", "eo:cloud_cover", "item"]:
             self.assertTrue(column in formatted_2.columns)
 
     def test_format_collections_by_adding_columns(self):
@@ -158,10 +158,10 @@ class TestFormatting(PyGeodesTestCase):
         self.assertEqual(set(formatted_1.columns), set(formatted_2.columns))
 
         formatted_1 = format_items(
-            self.list_of_items, columns_to_add={"dataType"}
+            self.list_of_items, columns_to_add={"dataset"}
         )
         formatted_2 = format_items(
-            self.list_of_items, columns_to_add=["dataType"]
+            self.list_of_items, columns_to_add=["dataset"]
         )
         self.assertEqual(set(formatted_1.columns), set(formatted_2.columns))
 

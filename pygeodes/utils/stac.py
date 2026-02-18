@@ -104,7 +104,7 @@ class Item(StacItem):
 
     @property
     def s3_path(self):
-        return self.find("accessService:endpointURL")
+        return self.find("endpoint_url")
 
     def download_archive(self, outfile: str = None):
         from pygeodes.geodes import Geodes

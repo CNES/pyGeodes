@@ -32,7 +32,7 @@ class PyGeodesTestCase(unittest.TestCase):
         check_presence_of_valid_api_key()
         self.valid_api_key = load_json(VALID_API_KEY_PATH)["api_key"]
 
-        self.other_config_file = TEST_ENV_DIR.joinpath("folder").joinpath(
+        self.other_config_file = TEST_ENV_DIR.joinpath(
             "other-config-file.json"
         )
         os.chdir(
